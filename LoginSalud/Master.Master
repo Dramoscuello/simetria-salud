@@ -1,0 +1,163 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="Master.master.vb" Inherits="LoginSalud.Master" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Simetria Consolidated</title>
+    <script src="Content/bootstrap/js/jquery.js"></script>
+    <script src="Content/bootstrap/js/bootstrap.min.js"></script>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+    <link rel="shortcut icon" type="image/x-icon" href="img/icon.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <%--    <link href="Content/bootstrap/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="Content/bootstrap/css/ionicons.min.css" rel="stylesheet" />--%>
+
+    <link href="Content/bootstrap/css/AdminLTE.min.css" rel="stylesheet" />
+    <link href="Content/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap/skins/_all-skins.min.css" rel="stylesheet" />
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <header class="main-header">
+        <a href="Inicio.aspx" class="logo">
+            <span class="logo-mini"><b>SI</b>..</span>
+            <span class="logo-lg"><b>Simetria</b></span>
+        </a>
+        <nav class="navbar navbar-static-top">
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown user user-menu">
+
+                        <a href="#" runat="server" onserverclick="Logout">
+                            <img src="IMG/salir.png" class="user-image" alt="User Image"/>
+                            <span class="hidden-xs">Salir</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="user-header"></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+     <aside class="main-sidebar">
+         <section class="sidebar">
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="IMG/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                </div>
+                <div class="pull-left info">
+
+                    <p>
+                        <asp:Label ID="Label1" runat="server" Text="Usuario" Font-Size="Smaller"></asp:Label>
+                    </p>
+                    <a href="#"><i class="fa fa-circle text-success"></i>Conectado</a>
+                </div>
+            </div>
+            <form action="#" method="get" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                        <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+            <ul class="sidebar-menu">
+                <li class="header">Menu de Opciones</li>
+                <li class="active treeview">
+                    <a href="#">
+                        <i class="fa fa-home"></i><span>Inicio</span>
+                        <span class="pull-right-container">
+                            <i class=""></i>
+                        </span>
+                    </a>
+
+                </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>Rips</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href='<%=ResolveUrl("~/ValidacionRips") %>'><i class="fa fa-hand-o-right" aria-hidden="true"></i>Validacion de Rips</a></li>
+                        <li><a href="#"><i class="fa fa-hand-o-right" aria-hidden="true"></i>Creacion de Rips</a></li>
+                    </ul>
+                </li>
+                <li class="treeview" runat="server" id="hide1">
+                    <a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>1479</span>
+                        <span class="pull-right-container">
+                            <span class="label label-primary pull-right">2</span>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#"><i class="fa fa-circle-o"></i>Validacion 1479</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i>Creacion 2175</a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview" runat="server" id="hide2">
+                    <a href="#">
+                        <i class="fa fa-laptop"></i>
+                        <span>2175</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i>Validacion 2175</a></li>
+                        <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i>Creacion 2175</a></li>
+                    </ul>
+                </li>
+                <li class="treeview" runat="server" id="hide3">
+                    <a href="#">
+                        <i class="fa fa-laptop"></i>
+                        <span>Estadisticas Vitales</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i>Importar Archivos</a></li>
+                        <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i>Crear</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </section>
+    </aside>
+
+    <div class="content-wrapper" style='background-color: white;'>
+
+        <section class="content" style='background-color: white;'>
+            <form id="form1" runat="server">
+                <div>
+                    <div class="container">
+
+                        <asp:ContentPlaceHolder ID="Cbody" runat="server"></asp:ContentPlaceHolder>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+    </footer>
+    <script src="Content/bootstrap/js/bootstrap.min.js"></script>
+    <script src="Content/bootstrap/js/app.min.js"></script>
+    <script src="Content/bootstrap/js/pages/dashboard.js"></script>
+    <asp:ContentPlaceHolder ID="Cfoot" runat="server"></asp:ContentPlaceHolder>
+</body>
+</html>

@@ -1,0 +1,32 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="Site1.master.vb" Inherits="LoginSalud.Site1" %>
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Acceso de Usuarios</title>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" type="image/x-icon" href="img/icon.ico" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="Content/bootstrap.css" rel="stylesheet"/>
+    <asp:ContentPlaceHolder ID="Chead" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body>
+    
+    <form id="form1" runat="server">
+        <div>        
+            <div class="container">
+                <asp:ContentPlaceHolder ID="Cheader" runat="server"></asp:ContentPlaceHolder>
+                <asp:ContentPlaceHolder ID="Cbody" runat="server" >
+                    
+                </asp:ContentPlaceHolder>
+            </div>        
+        </div>
+    </form>
+    <script src="Scripts/jquery-3.1.0.js"></script>
+    <script src="Scripts/bootstrap.js"></script>    
+    <asp:ContentPlaceHolder ID="Cfoot" runat="server"></asp:ContentPlaceHolder>
+</body>
+</html>
