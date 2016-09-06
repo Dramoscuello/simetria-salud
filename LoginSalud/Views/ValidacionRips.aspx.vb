@@ -7,16 +7,24 @@ Imports ClosedXML.Excel
 
 Public Class ValidacionRips
     Inherits System.Web.UI.Page
-
-    Dim claseprocedure As New Codprocedure
+    Dim idusu As String
     Dim Nomre_Archivo As New DataTable
-
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Label3.Visible = False
+        Response.Cache.SetCacheability(HttpCacheability.ServerAndNoCache)
+        Response.Cache.SetAllowResponseInBrowserHistory(False)
+        Response.Cache.SetNoStore()
+        If Session("usuario") IsNot Nothing Then
+            Label3.Visible = False
+            idusu = Session("usuario")
+        Else
+            Response.Redirect("~/Ingreso")
+        End If
+
     End Sub
 
     Private Sub cargar_Solo_Nombres(ByRef id As String, ByRef Archi2 As String, ByRef nombre As String)
         Dim controlCT As New DataTable
+        Dim claseprocedure As New Codprocedure
         controlCT = claseprocedure.ListarControl()
         Dim opcion As String
         For Each MiDataRow As DataRow In controlCT.Rows
@@ -111,34 +119,34 @@ Public Class ValidacionRips
 
             End Select
         Next
-        claseprocedure.Excluir()
-        claseprocedure.Act_dATOSTB()
+        Dim eXC As String = claseprocedure.Excluir(idusu).ToString
+        claseprocedure.Act_dATOSTB(idusu)
         claseprocedure.Act_edades_Q_E_V()
-        claseprocedure.Act_CamposRep_()
+        claseprocedure.Act_CamposRep_(idusu, eXC)
         For Each MiDataRow As DataRow In controlCT.Rows
             opcion = MiDataRow("Campo3")
             Select Case Mid(opcion, 1, 2).ToUpper
                 Case "AC"
-                    claseprocedure.Validar_Consultas()
-                    claseprocedure.Validar_Consultastari(DropDownListPorcentaje.Text, "CUPS")
+                    claseprocedure.Validar_Consultas(idusu, eXC)
+                    claseprocedure.Validar_Consultastari(idusu, DropDownListPorcentaje.Text, "CUPS")
                 Case "AF"
-                    claseprocedure.Validar_Transaccion()
+                    claseprocedure.Validar_Transaccion(idusu, eXC)
                 Case "AH"
-                    claseprocedure.Validar_Hospitalizacion()
+                    claseprocedure.Validar_Hospitalizacion(idusu, eXC)
                 Case "AM"
-                    claseprocedure.Validar_Medicamentos()
+                    claseprocedure.Validar_Medicamentos(idusu, eXC)
                 Case "AN"
-                    claseprocedure.Validar_Nacimientos()
+                    claseprocedure.Validar_Nacimientos(idusu, eXC)
                 Case "AP"
-                    claseprocedure.Validar_Procedimientos()
-                    claseprocedure.Validar_Procedimientostari(DropDownListPorcentaje.Text, "CUPS")
+                    claseprocedure.Validar_Procedimientos(idusu, eXC)
+                    claseprocedure.Validar_Procedimientostari(idusu, DropDownListPorcentaje.Text, "CUPS")
                 Case "AT"
-                    claseprocedure.Validar_Otros_servicios()
-                    claseprocedure.Validar_Otros_serviciostari(DropDownListPorcentaje.Text, "CUPS")
+                    claseprocedure.Validar_Otros_servicios(idusu, eXC)
+                    claseprocedure.Validar_Otros_serviciostari(idusu, DropDownListPorcentaje.Text, "CUPS")
                 Case "AU"
-                    claseprocedure.Validar_Urgencias()
+                    claseprocedure.Validar_Urgencias(idusu, eXC)
                 Case "US"
-                    claseprocedure.Validar_Usuarios()
+                    claseprocedure.Validar_Usuarios(idusu, eXC)
             End Select
         Next
         Label3.Visible = True
@@ -170,15 +178,15 @@ Public Class ValidacionRips
         '    Exit Sub
         'End If
         Dim af_, am, ac, ah, an, ap, at, au, us, ok_ As New DataTable
-        af_ = pasaerE.Obtener_Errores_AF("02") '.Rows.Count
-        am = pasaerE.Obtener_Errores_AM("02")
-        ac = pasaerE.Obtener_Errores_CA("02")
-        ah = pasaerE.Obtener_Errores_AH("02")
-        an = pasaerE.Obtener_Errores_AN("02")
-        ap = pasaerE.Obtener_Errores_AP("02")
-        at = pasaerE.Obtener_Errores_AT("02")
-        au = pasaerE.Obtener_Errores_AU("02")
-        us = pasaerE.Obtener_Errores_US("02")
+        af_ = pasaerE.Obtener_Errores_AF(idusu) '.Rows.Count
+        am = pasaerE.Obtener_Errores_AM(idusu)
+        ac = pasaerE.Obtener_Errores_CA(idusu)
+        ah = pasaerE.Obtener_Errores_AH(idusu)
+        an = pasaerE.Obtener_Errores_AN(idusu)
+        ap = pasaerE.Obtener_Errores_AP(idusu)
+        at = pasaerE.Obtener_Errores_AT(idusu)
+        au = pasaerE.Obtener_Errores_AU(idusu)
+        us = pasaerE.Obtener_Errores_US(idusu)
         Dim wb As New XLWorkbook()
 
         If af_.Rows.Count > 0 Then
@@ -236,12 +244,14 @@ Public Class ValidacionRips
 
     Protected Sub ButtonValidar_(sender As Object, e As EventArgs) Handles ButtonValidar.Click
         Dim conect As New ClassConexion
+        Dim claseprocedure As New Codprocedure
+        Label2.Visible = False
         Try
             If DropDownListPorcentaje.Text = "0" Then
                 ClientScript.RegisterStartupScript(Me.GetType(), "alert", "alert('Debe seleccionar el porcentaje de validacion ');", True)
                 Exit Sub
             End If
-            claseprocedure.Eliminar_Registros_Usuarios("02")
+            claseprocedure.Eliminar_Registros_Usuarios(idusu)
             If IO.Directory.Exists(Server.MapPath("Validacion/")) Then
                 For Each item As String In Directory.GetFiles(Server.MapPath("Validacion/"))
                     File.Delete(item)
@@ -260,7 +270,7 @@ Public Class ValidacionRips
                     Label2.Text = "Cargando Archivos al Servidor"
                     Dim nomb As String = Mid(file.FileName, 1, 2)
                     If nomb = "CT" Or nomb = "Ct" Or nomb = "cT" Or nomb = "ct" Then
-                        claseprocedure.RCargar_Control(source + file.FileName, UCase(nomb), "02")
+                        claseprocedure.RCargar_Control(source + file.FileName, UCase(nomb), idusu)
                         Label2.Text = "Importando Archivos CT"
                     End If
                 Next
@@ -270,7 +280,7 @@ Public Class ValidacionRips
                     Label2.Text = ""
                     Exit Sub
                 Else
-                    cargar_Solo_Nombres("02", source, "")
+                    cargar_Solo_Nombres(idusu, source, "")
                 End If
                 My.Computer.FileSystem.DeleteFile(Server.MapPath("Validacion/") + path)
 

@@ -152,37 +152,11 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\bootstrap\css\bootstrap.css" />
-    <Content Include="Content\bootstrap\css\bootstrap.min.css" />
-    <Content Include="Content\bootstrap\css\fileinput.css" />
-    <Content Include="Content\bootstrap\css\fileinput.min.css" />
-    <Content Include="Content\bootstrap\css\font-awesome.min.css" />
-    <Content Include="Content\bootstrap\css\ionicons.min.css" />
-    <Content Include="Content\bootstrap\css\AdminLTE.css" />
-    <Content Include="Content\bootstrap\css\AdminLTE.min.css" />
-    <Content Include="Content\bootstrap\js\app.min.js" />
-    <Content Include="Content\bootstrap\js\dashboard.js" />
-    <Content Include="Content\bootstrap\css\form.css" />
-    <Content Include="Content\bootstrap\js\bootstrap.js" />
-    <Content Include="Content\bootstrap\js\bootstrap.min.js" />
-    <Content Include="Content\bootstrap\js\fileinput.js" />
-    <Content Include="Content\bootstrap\js\fileinput.min.js" />
-    <Content Include="Content\bootstrap\js\jquery.js" />
-    <Content Include="Content\bootstrap\js\themes\dark-blue.js" />
-    <Content Include="Content\bootstrap\js\themes\dark-green.js" />
-    <Content Include="Content\bootstrap\js\themes\gray.js" />
-    <Content Include="Content\bootstrap\js\themes\grid.js" />
-    <Content Include="Content\bootstrap\css\Site.css" />
-    <Content Include="Content\bootstrap\css\StyleSheet1.css" />
-    <Content Include="Content\bootstrap\skins\_all-skins.min.css" />
     <Content Include="Default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="IMG\icon.ico" />
     <Content Include="IMG\logout.png" />
     <Content Include="IMG\user2-160x160.jpg" />
-    <Content Include="Views\Prueba.aspx" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -194,13 +168,6 @@
     <Content Include="Views\login.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Content\bootstrap\css\bootstrap.css.map" />
-    <Content Include="Content\bootstrap\css\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -213,6 +180,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Views\Prueba.aspx" />
     <Content Include="Views\ValidacionRips.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -230,13 +198,6 @@
     <Compile Include="Site1.Master.vb">
       <DependentUpon>Site1.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Views\Prueba.aspx.designer.vb">
-      <DependentUpon>Prueba.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Prueba.aspx.vb">
-      <DependentUpon>Prueba.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
@@ -279,12 +240,19 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Views\Prueba.aspx.designer.vb">
+      <DependentUpon>Prueba.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Prueba.aspx.vb">
+      <DependentUpon>Prueba.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Views\ValidacionRips.aspx.designer.vb">
       <DependentUpon>ValidacionRips.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\ValidacionRips.aspx.vb">
       <DependentUpon>ValidacionRips.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>

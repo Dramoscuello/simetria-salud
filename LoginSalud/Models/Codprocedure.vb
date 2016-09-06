@@ -154,7 +154,10 @@ Public Class Codprocedure
         Finally
         End Try
     End Sub
-    Public Sub Act_dATOSTB()
+    Dim iduser As New ValidacionRips
+
+    Public Sub Act_dATOSTB(ByRef id As String)
+
         'Dim fila As Integer
         Dim sSQL As String
         Using cn As New MySqlConnection(conexion)
@@ -165,7 +168,7 @@ Public Class Codprocedure
                     Using cmd As New MySqlCommand(sSQL, cn)
                         cmd.CommandType = CommandType.StoredProcedure
                         cmd.CommandTimeout = 900000000
-                        cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = "02"
+                        cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
                         cmd.ExecuteNonQuery()
                     End Using
                 Catch ex As MySqlException
@@ -193,7 +196,7 @@ Public Class Codprocedure
 
         End Using
     End Sub
-    Public Sub Act_CamposRep_()
+    Public Sub Act_CamposRep_(ByRef id As String, ByRef Excluir As String)
         Dim sSQL As String = ""
         Try
             Using cn As New MySqlConnection(conexion)
@@ -202,7 +205,7 @@ Public Class Codprocedure
                 sSQL = "Act_Datos_1"
                 Using cmd As New MySqlCommand(sSQL, cn)
                     cmd.CommandType = CommandType.StoredProcedure
-                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = "02"
+                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
                     cmd.CommandTimeout = 9000000
                     cmd.ExecuteNonQuery()
                 End Using
@@ -210,8 +213,8 @@ Public Class Codprocedure
                 sSQL = "Act_CamposRep_"
                 Using cmd As New MySqlCommand(sSQL, cn)
                     cmd.CommandType = CommandType.StoredProcedure
-                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = "02"
-                    cmd.Parameters.Add("Excluir", MySqlDbType.Float).Value = Excluir()
+                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
+                    cmd.Parameters.Add("Excluir", MySqlDbType.Float).Value = Excluir
                     cmd.CommandTimeout = 9000000
                     cmd.ExecuteNonQuery()
                 End Using
@@ -221,14 +224,14 @@ Public Class Codprocedure
             MsgBox(ex.Message, , sSQL)
         End Try
     End Sub
-    Public Function Excluir()
+    Public Function Excluir(ByRef ID As String) As String
         Try
-
+            Dim PExcluir As String = ""
             Dim SSQL As String
             Dim tbl As New DataTable
             Using cn As New MySqlConnection(conexion)
                 cn.Open()
-                SSQL = "SELECT (SELECT COUNT(*) FROM af a WHERE a.Usuario='" & "02" & "') AS CAF,(SELECT COUNT(*) FROM us u WHERE u.Usuario='" & "02" & "') AS CUS"
+                SSQL = "SELECT (SELECT COUNT(*) FROM af a WHERE a.Usuario='" & ID & "') AS CAF,(SELECT COUNT(*) FROM us u WHERE u.Usuario='" & ID & "') AS CUS"
                 Dim cmd As New MySqlDataAdapter(SSQL, cn)
                 If cmd.Fill(tbl) > 0 Then
                     If tbl.Rows(0)("CUS") > 1 And tbl.Rows(0)("CAF") = 1 Then
@@ -245,9 +248,9 @@ Public Class Codprocedure
         End Try
     End Function
 
-    Dim PExcluir As String = Excluir()
 
-    Public Sub Validar_Consultas()
+
+    Public Sub Validar_Consultas(ByRef id As String, ByRef PExcluir As String)
         Dim sSQL As String
 
         sSQL = "ERRORES_EN_CONSULTA"
@@ -258,7 +261,7 @@ Public Class Codprocedure
                 Using cmd As New MySqlCommand(sSQL, cn)
                     cmd.CommandType = CommandType.StoredProcedure
                     cmd.CommandTimeout = 900000000
-                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = "02"
+                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
                     cmd.Parameters.Add("Excluir", MySqlDbType.Float).Value = PExcluir
                     cmd.ExecuteNonQuery()
                     cn.Close()
@@ -270,7 +273,7 @@ Public Class Codprocedure
     End Sub
     Dim porce, por1 As Integer
     Dim tari As String
-    Public Sub Validar_Consultastari(ByRef Porcentajetxt As String, ByRef CbTipoTarifa As String)
+    Public Sub Validar_Consultastari(ByRef id As String, ByRef Porcentajetxt As String, ByRef CbTipoTarifa As String)
         Dim cs As String, SSQL As String
 
         por1 = CInt(Porcentajetxt)
@@ -282,7 +285,7 @@ Public Class Codprocedure
         Try
             Using conn As New MySqlConnection(conexion)
                 conn.Open()
-                SSQL = "SET AUTOCOMMIT = 0; INSERT INTO error_ac_ (TIPO_IDENTIFI, NUM_IDENTIFI, NUM_FACTURA, FECHA_CONSULTA, CODIGO_CONS, DX_PPAL, DESCRIPCION_DEL_ERROR, ERROR1,USUARIO) SELECT ac.Campo3,ac.Campo4,ac.Campo1, ac.Campo5, ac.Campo7, ac.Campo10,'DIFERENCIA DE TARIFA' AS DESCRIP,ac.Campo15-ROUND(t.VALOR *(" & porce & " / 100), -2) AS PORC,'" & "02" & "' FROM ac INNER JOIN tarifas_1 t ON t.CÓDIGO=ac.Campo7 AND t.AÑO = YEAR(ac.Campo5) WHERE t.MANUAL = 'cups' AND ROUND(t.VALOR *(" & porce & " / 100), 1)<>ac.Campo10 AND (ac.Campo15-ROUND(t.VALOR *(" & porce & " / 100), 1))>0 AND ac.Usuario='" & "02" & "'; COMMIT;"
+                SSQL = "SET AUTOCOMMIT = 0; INSERT INTO error_ac_ (TIPO_IDENTIFI, NUM_IDENTIFI, NUM_FACTURA, FECHA_CONSULTA, CODIGO_CONS, DX_PPAL, DESCRIPCION_DEL_ERROR, ERROR1,USUARIO) SELECT ac.Campo3,ac.Campo4,ac.Campo1, ac.Campo5, ac.Campo7, ac.Campo10,'DIFERENCIA DE TARIFA' AS DESCRIP,ac.Campo15-ROUND(t.VALOR *(" & porce & " / 100), -2) AS PORC,'" & id & "' FROM ac INNER JOIN tarifas_1 t ON t.CÓDIGO=ac.Campo7 AND t.AÑO = YEAR(ac.Campo5) WHERE t.MANUAL = 'cups' AND ROUND(t.VALOR *(" & porce & " / 100), 1)<>ac.Campo10 AND (ac.Campo15-ROUND(t.VALOR *(" & porce & " / 100), 1))>0 AND ac.Usuario='" & id & "'; COMMIT;"
                 Dim cmd As New MySqlCommand(SSQL, conn)
                 cmd.CommandType = CommandType.Text
                 cmd.CommandTimeout = 9000000
@@ -292,9 +295,8 @@ Public Class Codprocedure
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "VALIDANDO TARIFAS EN CONSULTAS ")
         End Try
     End Sub
-    Public Sub Validar_Hospitalizacion()
+    Public Sub Validar_Hospitalizacion(ByRef id As String, ByRef PExcluir As String)
         Dim sSQL As String
-
         sSQL = "ERRORES_EN_HOSPITALIZACION"
         Try
             Using cn As New MySqlConnection(conexion)
@@ -303,7 +305,7 @@ Public Class Codprocedure
                 Using cmd As New MySqlCommand(sSQL, cn)
                     cmd.CommandType = CommandType.StoredProcedure
                     cmd.CommandTimeout = 900000000
-                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = "02"
+                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
                     cmd.Parameters.Add("Excluir", MySqlDbType.Float).Value = PExcluir
                     cmd.ExecuteNonQuery()
                     cn.Close()
@@ -313,7 +315,7 @@ Public Class Codprocedure
             MsgBox(ex.Message, , sSQL)
         End Try
     End Sub
-    Public Sub Validar_Medicamentos()
+    Public Sub Validar_Medicamentos(ByRef id As String, ByRef PExcluir As String)
         Dim sSQL As String
         sSQL = "ERRORES_EN_MEDICAMENTOS"
         Try
@@ -322,7 +324,7 @@ Public Class Codprocedure
                 Using cmd As New MySqlCommand(sSQL, cn)
                     cmd.CommandType = CommandType.StoredProcedure
                     cmd.CommandTimeout = 900000000
-                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = "02"
+                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
                     cmd.Parameters.Add("Excluir", MySqlDbType.Float).Value = PExcluir
                     cmd.ExecuteNonQuery()
                 End Using
@@ -331,7 +333,7 @@ Public Class Codprocedure
             MsgBox(ex.Message, , sSQL)
         End Try
     End Sub
-    Public Sub Validar_Nacimientos()
+    Public Sub Validar_Nacimientos(ByRef id As String, ByRef PExcluir As String)
         Dim sSQL As String
 
         sSQL = "ERRORES_EN_RECIEN_NACIDOS"
@@ -342,7 +344,7 @@ Public Class Codprocedure
                 Using cmd As New MySqlCommand(sSQL, cn)
                     cmd.CommandType = CommandType.StoredProcedure
                     cmd.CommandTimeout = 900000000
-                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = "02"
+                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
                     cmd.Parameters.Add("Excluir", MySqlDbType.Float).Value = PExcluir
                     cmd.ExecuteNonQuery()
                     cn.Close()
@@ -352,7 +354,7 @@ Public Class Codprocedure
             MsgBox(ex.Message, , sSQL)
         End Try
     End Sub
-    Public Sub Validar_Otros_servicios()
+    Public Sub Validar_Otros_servicios(ByRef id As String, ByRef PExcluir As String)
         Dim sSQL As String
         sSQL = "ERRORES_EN_OTROS_SERVICIOS"
         Try
@@ -362,7 +364,7 @@ Public Class Codprocedure
                 Using cmd As New MySqlCommand(sSQL, cn)
                     cmd.CommandType = CommandType.StoredProcedure
                     cmd.CommandTimeout = 900000000
-                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = "02"
+                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
                     cmd.Parameters.Add("Excluir", MySqlDbType.Float).Value = PExcluir
                     cmd.ExecuteNonQuery()
                     cn.Close()
@@ -373,7 +375,7 @@ Public Class Codprocedure
         End Try
     End Sub
 
-    Public Sub Validar_Otros_serviciostari(ByRef Porcentajetxt As String, ByRef CbTipoTarifa As String)
+    Public Sub Validar_Otros_serviciostari(ByRef id As String, ByRef Porcentajetxt As String, ByRef CbTipoTarifa As String)
 
         Dim SSQL As String = ""
 
@@ -384,7 +386,7 @@ Public Class Codprocedure
         Try
             Using conn As New MySqlConnection(conexion)
                 conn.Open()
-                SSQL = "SET AUTOCOMMIT = 0;  INSERT INTO error_at_ (NUM_FACTURA, TIPO_IDENTIFI, NUM_IDENTIFI, TIPO_SERV, CODIGO_SERV, NOMBRE_SERV, CANT , VALOR_UNITARIO, DESCRIPCION_DEL_ERROR , ERROR1 , Usuario) SELECT a.Campo1 , a.Campo3 , a.Campo4 , a.Campo6 , a.Campo7 , a.Campo8 , a.Campo9 ,a.Campo10 , CONCAT('DIFERENCIA DE TARIFA - ','TARIFA :',t.VALOR,' - PORCENTAJE ('," & porce & ",'%) : ',ROUND(t.VALOR *(" & porce & " / 100), -2), ' - DIFERENCIA :',(a.Campo10-ROUND(t.VALOR *(" & porce & " / 100), -2))) AS DESCRIP, a.Campo9*(a.Campo10-ROUND(t.VALOR *(" & porce & " / 100), -2)) AS PORC,'" & "02" & "' FROM at01 a INNER JOIN tarifas_1 t ON t.CÓDIGO=a.Campo7 AND t.AÑO = YEAR(a.FECHA) WHERE t.MANUAL = 'cups' AND ROUND(t.VALOR *(" & porce & " / 100), 1)<>a.Campo10 AND (a.Campo10-ROUND(t.VALOR *(" & porce & " / 100), 1))>0 AND a.Usuario='" & "02" & "';  COMMIT;"
+                SSQL = "SET AUTOCOMMIT = 0;  INSERT INTO error_at_ (NUM_FACTURA, TIPO_IDENTIFI, NUM_IDENTIFI, TIPO_SERV, CODIGO_SERV, NOMBRE_SERV, CANT , VALOR_UNITARIO, DESCRIPCION_DEL_ERROR , ERROR1 , Usuario) SELECT a.Campo1 , a.Campo3 , a.Campo4 , a.Campo6 , a.Campo7 , a.Campo8 , a.Campo9 ,a.Campo10 , CONCAT('DIFERENCIA DE TARIFA - ','TARIFA :',t.VALOR,' - PORCENTAJE ('," & porce & ",'%) : ',ROUND(t.VALOR *(" & porce & " / 100), -2), ' - DIFERENCIA :',(a.Campo10-ROUND(t.VALOR *(" & porce & " / 100), -2))) AS DESCRIP, a.Campo9*(a.Campo10-ROUND(t.VALOR *(" & porce & " / 100), -2)) AS PORC,'" & id & "' FROM at01 a INNER JOIN tarifas_1 t ON t.CÓDIGO=a.Campo7 AND t.AÑO = YEAR(a.FECHA) WHERE t.MANUAL = 'cups' AND ROUND(t.VALOR *(" & porce & " / 100), 1)<>a.Campo10 AND (a.Campo10-ROUND(t.VALOR *(" & porce & " / 100), 1))>0 AND a.Usuario='" & id & "';  COMMIT;"
                 Dim cmd As New MySqlCommand(SSQL, conn)
                 cmd.CommandType = CommandType.Text
                 cmd.CommandTimeout = 9000000
@@ -395,7 +397,7 @@ Public Class Codprocedure
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "VALIDANDO TARIFAS EN OTROS SERVICIOS ")
         End Try
     End Sub
-    Public Sub Validar_Procedimientos()
+    Public Sub Validar_Procedimientos(ByRef id As String, ByRef PExcluir As String)
         Dim sSQL As String
         sSQL = "ERRORES_EN_PROCEDIMIENTOS"
         Try
@@ -405,7 +407,7 @@ Public Class Codprocedure
                 Using cmd As New MySqlCommand(sSQL, cn)
                     cmd.CommandType = CommandType.StoredProcedure
                     cmd.CommandTimeout = 900000000
-                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = "02"
+                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
                     cmd.Parameters.Add("Excluir", MySqlDbType.Float).Value = PExcluir
                     cmd.ExecuteNonQuery()
                 End Using
@@ -415,7 +417,7 @@ Public Class Codprocedure
         End Try
     End Sub
 
-    Public Sub Validar_Procedimientostari(ByRef Porcentajetxt As String, ByRef CbTipoTarifa As String)
+    Public Sub Validar_Procedimientostari(ByRef id As String, ByRef Porcentajetxt As String, ByRef CbTipoTarifa As String)
         Dim cs As String, SSQL As String
         por1 = CInt(Porcentajetxt)
         cs = ""
@@ -425,7 +427,7 @@ Public Class Codprocedure
         Try
             Using conn As New MySqlConnection(conexion)
                 conn.Open()
-                SSQL = "SET AUTOCOMMIT = 0; INSERT INTO error_ap_ (TIPO_IDENTIFI, NUM_IDENTIFI, NUM_FACTURA, FECHA_PROC, CODIGO_PROC, DESCRIPCION_DEL_ERROR , ERROR1 ,Usuario) SELECT ap.Campo3 , ap.Campo4 , ap.Campo1 , ap.Campo5 , ap.Campo7 , 'DIFERENCIA DE TARIFA' AS DESCRIP, ap.Campo15-ROUND(t.VALOR *(" & porce & " / 100), -2) PORC,'" & "02" & "' FROM ap INNER JOIN tarifas_1 t ON t.CÓDIGO=ap.Campo7 AND t.AÑO = YEAR(ap.Campo5) WHERE t.MANUAL = 'cups' AND ROUND(t.VALOR *(" & porce & " / 100), 1)<>ap.Campo15 AND (ap.Campo15-ROUND(t.VALOR *(" & porce & " / 100), 1))>0 AND ap.Usuario='" & "02" & "';  COMMIT;"
+                SSQL = "SET AUTOCOMMIT = 0; INSERT INTO error_ap_ (TIPO_IDENTIFI, NUM_IDENTIFI, NUM_FACTURA, FECHA_PROC, CODIGO_PROC, DESCRIPCION_DEL_ERROR , ERROR1 ,Usuario) SELECT ap.Campo3 , ap.Campo4 , ap.Campo1 , ap.Campo5 , ap.Campo7 , 'DIFERENCIA DE TARIFA' AS DESCRIP, ap.Campo15-ROUND(t.VALOR *(" & porce & " / 100), -2) PORC,'" & id & "' FROM ap INNER JOIN tarifas_1 t ON t.CÓDIGO=ap.Campo7 AND t.AÑO = YEAR(ap.Campo5) WHERE t.MANUAL = 'cups' AND ROUND(t.VALOR *(" & porce & " / 100), 1)<>ap.Campo15 AND (ap.Campo15-ROUND(t.VALOR *(" & porce & " / 100), 1))>0 AND ap.Usuario='" & id & "';  COMMIT;"
                 Dim cmd As New MySqlCommand(SSQL, conn)
                 cmd.CommandTimeout = 9000000
                 Dim iResultado As Integer
@@ -436,7 +438,7 @@ Public Class Codprocedure
         End Try
     End Sub
 
-    Public Sub Validar_Urgencias()
+    Public Sub Validar_Urgencias(ByRef id As String, ByRef PExcluir As String)
         Dim sSQL As String
 
         sSQL = "ERRORES_EN_URGENCIAS"
@@ -446,7 +448,7 @@ Public Class Codprocedure
                 Using cmd As New MySqlCommand(sSQL, conn)
                     cmd.CommandType = CommandType.StoredProcedure
                     cmd.CommandTimeout = 900000000
-                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = "02"
+                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
                     cmd.Parameters.Add("Excluir", MySqlDbType.Float).Value = PExcluir
                     cmd.ExecuteNonQuery()
                 End Using
@@ -455,7 +457,7 @@ Public Class Codprocedure
             MsgBox(ex.Message, , sSQL)
         End Try
     End Sub
-    Public Sub Validar_Usuarios()
+    Public Sub Validar_Usuarios(ByRef id As String, ByRef PExcluir As String)
         Dim sSQL As String
         sSQL = "ERRORES_EN_USUARIOS"
         Try
@@ -466,7 +468,7 @@ Public Class Codprocedure
                 Using cmd As New MySqlCommand(sSQL, cn)
                     cmd.CommandType = CommandType.StoredProcedure
                     cmd.CommandTimeout = 900000000
-                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = "02"
+                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
                     cmd.Parameters.Add("Excluir", MySqlDbType.Float).Value = PExcluir
                     cmd.ExecuteNonQuery()
                 End Using
@@ -475,7 +477,7 @@ Public Class Codprocedure
             MsgBox(ex.Message, , sSQL)
         End Try
     End Sub
-    Public Sub Validar_Transaccion()
+    Public Sub Validar_Transaccion(ByRef id As String, ByRef PExcluir As String)
         Dim sSQL As String
         sSQL = "ERRORES_EN_TRANSACCIONES"
         Try
@@ -484,7 +486,7 @@ Public Class Codprocedure
                 Using cmd As New MySqlCommand(sSQL, cn)
                     cmd.CommandType = CommandType.StoredProcedure
                     cmd.CommandTimeout = 900000000
-                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = "02"
+                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
                     cmd.Parameters.Add("Excluir", MySqlDbType.Float).Value = PExcluir
                     cmd.ExecuteNonQuery()
                 End Using
@@ -493,7 +495,7 @@ Public Class Codprocedure
             MsgBox(ex.Message, , sSQL)
         End Try
     End Sub
-    Public Sub TotalFacturado(ByRef IdUsuariA As String)
+    Public Sub TotalFacturado(ByRef IdUsuariA As String, ByRef PExcluir As String)
         Dim query As String = "TotalFacturado"
         Try
             Using conn As New MySqlConnection(conexion)
