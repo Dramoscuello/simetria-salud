@@ -157,24 +157,19 @@ Public Class Codprocedure
     Dim iduser As New ValidacionRips
 
     Public Sub Act_dATOSTB(ByRef id As String)
-
-        'Dim fila As Integer
-        Dim sSQL As String
         Using cn As New MySqlConnection(conexion)
             cn.Open()
-            For i = 1 To 16
-                sSQL = "Act_Datos_" & i
-                Try
-                    Using cmd As New MySqlCommand(sSQL, cn)
-                        cmd.CommandType = CommandType.StoredProcedure
-                        cmd.CommandTimeout = 900000000
-                        cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
-                        cmd.ExecuteNonQuery()
-                    End Using
-                Catch ex As MySqlException
-                    MsgBox(ex.Message, , sSQL)
-                End Try
-            Next
+
+            Try
+                Using cmd As New MySqlCommand("Act_Datos_", cn)
+                    cmd.CommandType = CommandType.StoredProcedure
+                    cmd.CommandTimeout = 900000000
+                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
+                    cmd.ExecuteNonQuery()
+                End Using
+            Catch ex As MySqlException
+                MsgBox(ex.Message, MsgBoxStyle.Information,)
+            End Try
         End Using
     End Sub
     Public Sub Act_edades_Q_E_V()
@@ -196,21 +191,12 @@ Public Class Codprocedure
 
         End Using
     End Sub
-    Public Sub Act_CamposRep_(ByRef id As String, ByRef Excluir As String)
+    Public Sub Act_CamposRep(ByRef id As String, ByRef Excluir As String)
         Dim sSQL As String = ""
         Try
+            sSQL = "Act_CamposRep"
             Using cn As New MySqlConnection(conexion)
-
                 cn.Open()
-                sSQL = "Act_Datos_1"
-                Using cmd As New MySqlCommand(sSQL, cn)
-                    cmd.CommandType = CommandType.StoredProcedure
-                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
-                    cmd.CommandTimeout = 9000000
-                    cmd.ExecuteNonQuery()
-                End Using
-
-                sSQL = "Act_CamposRep_"
                 Using cmd As New MySqlCommand(sSQL, cn)
                     cmd.CommandType = CommandType.StoredProcedure
                     cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
@@ -218,11 +204,11 @@ Public Class Codprocedure
                     cmd.CommandTimeout = 9000000
                     cmd.ExecuteNonQuery()
                 End Using
-
             End Using
         Catch ex As MySqlException
             MsgBox(ex.Message, , sSQL)
         End Try
+
     End Sub
     Public Function Excluir(ByRef ID As String) As String
         Try

@@ -122,7 +122,7 @@ Public Class ValidacionRips
         Dim eXC As String = claseprocedure.Excluir(idusu).ToString
         claseprocedure.Act_dATOSTB(idusu)
         claseprocedure.Act_edades_Q_E_V()
-        claseprocedure.Act_CamposRep_(idusu, eXC)
+        claseprocedure.Act_CamposRep(idusu, eXC)
         For Each MiDataRow As DataRow In controlCT.Rows
             opcion = MiDataRow("Campo3")
             Select Case Mid(opcion, 1, 2).ToUpper
