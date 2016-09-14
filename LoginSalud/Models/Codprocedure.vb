@@ -49,13 +49,13 @@ Public Class Codprocedure
 
     End Function
 
-    Public Function ListarControl() As DataTable
+    Public Function ListarControl(ByRef id_u As String) As DataTable
         Try
             Dim myData As New DataTable
             Dim myAdapter As New MySqlDataAdapter
             Using cn As New MySqlConnection(conexion)
                 cn.Open()
-                ssql = "SELECT Campo3 FROM CT"
+                ssql = "SELECT Campo3 FROM CT where Usuario='" & id_u & "'"
                 oComando = New MySqlCommand(ssql, cn)
                 oComando.CommandType = CommandType.Text
                 oComando.CommandTimeout = 5000000
@@ -161,7 +161,7 @@ Public Class Codprocedure
             cn.Open()
 
             Try
-                Using cmd As New MySqlCommand("Act_Datos_", cn)
+                Using cmd As New MySqlCommand("Act_Datos_   ", cn)
                     cmd.CommandType = CommandType.StoredProcedure
                     cmd.CommandTimeout = 900000000
                     cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
@@ -176,19 +176,16 @@ Public Class Codprocedure
         Dim sSQL As String
         Using cn As New MySqlConnection(conexion)
             cn.Open()
-            For i = 1 To 7
-                sSQL = "Edad_Q_E_V_" & i
-                Try
-                    Using cmd As New MySqlCommand(sSQL, cn)
-                        cmd.CommandType = CommandType.StoredProcedure
-                        cmd.CommandTimeout = 900000000
-                        cmd.ExecuteNonQuery()
-                    End Using
-                Catch ex As MySqlException
-                    MsgBox(ex.Message, , sSQL)
-                End Try
-            Next
-
+            sSQL = "Edad_Q_E_V_1"
+            Try
+                Using cmd As New MySqlCommand(sSQL, cn)
+                    cmd.CommandType = CommandType.StoredProcedure
+                    cmd.CommandTimeout = 900000000
+                    cmd.ExecuteNonQuery()
+                End Using
+            Catch ex As MySqlException
+                MsgBox(ex.Message, , sSQL)
+            End Try
         End Using
     End Sub
     Public Sub Act_CamposRep(ByRef id As String, ByRef Excluir As String)
@@ -271,11 +268,13 @@ Public Class Codprocedure
         Try
             Using conn As New MySqlConnection(conexion)
                 conn.Open()
+
                 SSQL = "SET AUTOCOMMIT = 0; INSERT INTO error_ac_ (TIPO_IDENTIFI, NUM_IDENTIFI, NUM_FACTURA, FECHA_CONSULTA, CODIGO_CONS, DX_PPAL, DESCRIPCION_DEL_ERROR, ERROR1,USUARIO) SELECT ac.Campo3,ac.Campo4,ac.Campo1, ac.Campo5, ac.Campo7, ac.Campo10,'DIFERENCIA DE TARIFA' AS DESCRIP,ac.Campo15-ROUND(t.VALOR *(" & porce & " / 100), -2) AS PORC,'" & id & "' FROM ac INNER JOIN tarifas_1 t ON t.CÓDIGO=ac.Campo7 AND t.AÑO = YEAR(ac.Campo5) WHERE t.MANUAL = 'cups' AND ROUND(t.VALOR *(" & porce & " / 100), 1)<>ac.Campo10 AND (ac.Campo15-ROUND(t.VALOR *(" & porce & " / 100), 1))>0 AND ac.Usuario='" & id & "'; COMMIT;"
                 Dim cmd As New MySqlCommand(SSQL, conn)
                 cmd.CommandType = CommandType.Text
                 cmd.CommandTimeout = 9000000
-                iResultado = cmd.ExecuteNonQuery() ' ejecutar comando 
+                iResultado = cmd.ExecuteNonQuery()
+                ' ejecutar comando 
             End Using
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "VALIDANDO TARIFAS EN CONSULTAS ")
@@ -451,16 +450,18 @@ Public Class Codprocedure
                 cn.Open()
 
 
+
+
                 Using cmd As New MySqlCommand(sSQL, cn)
                     cmd.CommandType = CommandType.StoredProcedure
                     cmd.CommandTimeout = 900000000
-                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
+                    cmd.Parameters.Add("USession_", MySqlDbType.VarChar).Value = id
                     cmd.Parameters.Add("Excluir", MySqlDbType.Float).Value = PExcluir
                     cmd.ExecuteNonQuery()
                 End Using
             End Using
         Catch ex As MySqlException
-            MsgBox(ex.Message, , sSQL)
+            Console.WriteLine("ArithmeticException Handler: {0}", ex.ToString())
         End Try
     End Sub
     Public Sub Validar_Transaccion(ByRef id As String, ByRef PExcluir As String)
@@ -478,7 +479,7 @@ Public Class Codprocedure
                 End Using
             End Using
         Catch ex As MySqlException
-            MsgBox(ex.Message, , sSQL)
+          Console.WriteLine("ArithmeticException Handler: {0}", ex.ToString())
         End Try
     End Sub
     Public Sub TotalFacturado(ByRef IdUsuariA As String, ByRef PExcluir As String)

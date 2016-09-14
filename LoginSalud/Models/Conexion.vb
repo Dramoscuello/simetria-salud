@@ -7,7 +7,7 @@ Public Class Conexion
             Dim MySqlConexion As New MySqlConnection(dato_Con)
             Return MySqlConexion
         Catch ex As Exception
-            MsgBox("Error de conexion", MsgBoxStyle.Information, "Validacion")
+
             Return Nothing
         End Try
     End Function

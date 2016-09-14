@@ -8,244 +8,303 @@ Imports ClosedXML.Excel
 Public Class ValidacionRips
     Inherits System.Web.UI.Page
     Dim idusu As String
+
     Dim Nomre_Archivo As New DataTable
-    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Response.Cache.SetCacheability(HttpCacheability.ServerAndNoCache)
-        Response.Cache.SetAllowResponseInBrowserHistory(False)
-        Response.Cache.SetNoStore()
-        If Session("usuario") IsNot Nothing Then
-            Label3.Visible = False
-            idusu = Session("usuario")
+        Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+            Response.Cache.SetCacheability(HttpCacheability.ServerAndNoCache)
+            Response.Cache.SetAllowResponseInBrowserHistory(False)
+            Response.Cache.SetNoStore()
+            If Session("usuario") IsNot Nothing Then
+                Label3.Visible = False
+                idusu = Session("usuario")
+
         Else
-            Response.Redirect("~/Ingreso")
+                Response.Redirect("~/Ingreso")
+            End If
+
+        End Sub
+
+    Sub es()
+        Label1.Visible = True
+        Dim mpContentPlaceHolder As ContentPlaceHolder
+        Dim mpTextBox As TextBox
+        mpContentPlaceHolder =
+                CType(Master.FindControl("ContentPlaceHolder1"),
+                ContentPlaceHolder)
+        If Not mpContentPlaceHolder Is Nothing Then
+            mpTextBox = CType(mpContentPlaceHolder.
+                    FindControl("TextBox1"), TextBox)
+            If Not mpTextBox Is Nothing Then
+                mpTextBox.Text = "TextBox found!"
+            End If
         End If
 
+        ' Gets a reference to a Label control not in a 
+        ' ContentPlaceHolder
+        Dim mpLabel As Label
+        mpLabel = CType(Master.FindControl("masterPageLabel"), Label)
+        If mpLabel Is Nothing Then
+
+            Label1.Text = "Master page label = " + mpLabel.Text
+        End If
     End Sub
 
+    Sub rrr(ByRef e As String)
+        Dim message As String = e
+        Dim sb As New System.Text.StringBuilder()
+        sb.Append("alert('")
+        sb.Append(message)
+        sb.Append("');")
+        ClientScript.RegisterOnSubmitStatement(Me.GetType(), "alert", sb.ToString())
+    End Sub
+
+
     Private Sub cargar_Solo_Nombres(ByRef id As String, ByRef Archi2 As String, ByRef nombre As String)
-        Dim controlCT As New DataTable
-        Dim claseprocedure As New Codprocedure
-        controlCT = claseprocedure.ListarControl()
-        Dim opcion As String
-        For Each MiDataRow As DataRow In controlCT.Rows
-            opcion = MiDataRow("Campo3")
-            Select Case Mid(opcion, 1, 2).ToUpper
-                Case "US"
-                    Dim US_ As String() = Directory.GetFiles(Archi2, "US*")
-                    If US_.Length = 0 Then
-                        MsgBox("El archivo US no Existe-- " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
-                        Exit Sub
-                    End If
-                    Label2.Text = "Importando Archivos de usuarios"
+            Dim controlCT As New DataTable
+            Dim claseprocedure As New Codprocedure
+            controlCT = claseprocedure.ListarControl(id)
+            Dim opcion As String
+            For Each MiDataRow As DataRow In controlCT.Rows
+                opcion = MiDataRow("Campo3")
+                Select Case Mid(opcion, 1, 2).ToUpper
+                    Case "US"
+                        Dim US_ As String() = Directory.GetFiles(Archi2, "US*")
+                        If US_.Length = 0 Then
+                            MsgBox("El archivo US no Existe-- " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                            Label2.Text = ""
+                            Exit Sub
+                        End If
+
+                    rrr("Importando Archivos de usuarios")
+
                     claseprocedure.RCargar_Control(Replace(US_(0), "\", "/"), "US", id)
-                Case "AC"
-                    Dim AC As String() = Directory.GetFiles(Archi2, "AC*")
+                    Case "AC"
+                        Dim AC As String() = Directory.GetFiles(Archi2, "AC*")
                     If AC.Length = 0 Then
                         MsgBox("El archivo AC no Existe-- " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
                         Label2.Text = ""
                         Exit Sub
                     End If
+                    rrr("Importando Archivos de Consultas")
                     Label2.Text = "Importando Archivos de Consultas"
-                    claseprocedure.RCargar_Control(Replace(AC(0), "\", "/"), "AC", id)
+                        claseprocedure.RCargar_Control(Replace(AC(0), "\", "/"), "AC", id)
 
-                Case "AF"
-                    Dim AF As String() = Directory.GetFiles(Archi2, "AF*")
-                    If AF.Length = 0 Then
-                        MsgBox("El archivo AF no Existe  - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
-                        Exit Sub
-                    End If
-                    Label2.Text = "Importando Archivos de transacciones"
-                    claseprocedure.RCargar_Control(Replace(AF(0), "\", "/"), "AF", id)
+                    Case "AF"
+                        Dim AF As String() = Directory.GetFiles(Archi2, "AF*")
+                        If AF.Length = 0 Then
+                            MsgBox("El archivo AF no Existe  - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                            Label2.Text = ""
+                            Exit Sub
+                        End If
+                        Label2.Text = "Importando Archivos de transacciones"
+                        claseprocedure.RCargar_Control(Replace(AF(0), "\", "/"), "AF", id)
 
-                Case "AH"
-                    Dim AH As String() = Directory.GetFiles(Archi2, "AH*")
-                    If AH.Length = 0 Then
-                        MsgBox("El archivo AH no Existe  - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
-                        Exit Sub
-                    End If
-                    Label2.Text = "Importando Archivos de Hospitalizacion"
-                    claseprocedure.RCargar_Control(Replace(AH(0), "\", "/"), "AH", id)
+                    Case "AH"
+                        Dim AH As String() = Directory.GetFiles(Archi2, "AH*")
+                        If AH.Length = 0 Then
+                            MsgBox("El archivo AH no Existe  - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                            Label2.Text = ""
+                            Exit Sub
+                        End If
+                        Label2.Text = "Importando Archivos de Hospitalizacion"
+                        claseprocedure.RCargar_Control(Replace(AH(0), "\", "/"), "AH", id)
 
-                Case "AM"
-                    Dim AM As String() = Directory.GetFiles(Archi2, "AM*")
-                    If AM.Length = 0 Then
-                        MsgBox("El archivo AM no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
-                        Exit Sub
-                    End If
-                    Label2.Text = "Importando Archivos de Medicamentos"
-                    claseprocedure.RCargar_Control(Replace(AM(0), "\", "/"), "AM", id)
-                Case "AN"
-                    Dim AN As String() = Directory.GetFiles(Archi2, "AN*")
-                    If AN.Length = 0 Then
-                        MsgBox("El archivo AN no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
-                        Exit Sub
-                    End If
-                    Label2.Text = "Importando Archivos de Nacimiento"
-                    claseprocedure.RCargar_Control(Replace(AN(0), "\", "/"), "AN", id)
+                    Case "AM"
+                        Dim AM As String() = Directory.GetFiles(Archi2, "AM*")
+                        If AM.Length = 0 Then
+                            MsgBox("El archivo AM no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                            Label2.Text = ""
+                            Exit Sub
+                        End If
+                        Label2.Text = "Importando Archivos de Medicamentos"
+                        claseprocedure.RCargar_Control(Replace(AM(0), "\", "/"), "AM", id)
+                    Case "AN"
+                        Dim AN As String() = Directory.GetFiles(Archi2, "AN*")
+                        If AN.Length = 0 Then
+                            MsgBox("El archivo AN no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                            Label2.Text = ""
+                            Exit Sub
+                        End If
+                        Label2.Text = "Importando Archivos de Nacimiento"
+                        claseprocedure.RCargar_Control(Replace(AN(0), "\", "/"), "AN", id)
 
-                Case "AP"
-                    Dim AP As String() = Directory.GetFiles(Archi2, "AP*")
-                    If AP.Length = 0 Then
-                        MsgBox("El archivo AP no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
-                        Exit Sub
-                    End If
-                    Label2.Text = "Importando Archivos de Procedimientos"
-                    claseprocedure.RCargar_Control(Replace(AP(0), "\", "/"), "AP", id)
+                    Case "AP"
+                        Dim AP As String() = Directory.GetFiles(Archi2, "AP*")
+                        If AP.Length = 0 Then
+                            MsgBox("El archivo AP no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                            Label2.Text = ""
+                            Exit Sub
+                        End If
+                        Label2.Text = "Importando Archivos de Procedimientos"
+                        claseprocedure.RCargar_Control(Replace(AP(0), "\", "/"), "AP", id)
 
-                Case "AT"
-                    Dim AT As String() = Directory.GetFiles(Archi2, "AT*")
-                    If AT.Length = 0 Then
-                        MsgBox("El archivo AT no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
-                        Exit Sub
-                    End If
-                    Label2.Text = "Importando Archivos de Otros Servicios"
-                    claseprocedure.RCargar_Control(Replace(AT(0), "\", "/"), "at01", id)
-                Case "AU"
-                    Dim AU As String() = Directory.GetFiles(Archi2, "AT*")
-                    If AU.Length = 0 Then
-                        MsgBox("El archivo AT no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
-                        Exit Sub
-                    End If
-                    Label2.Text = "Importando Archivos de Urgencias"
-                    claseprocedure.RCargar_Control(Replace(AU(0), "\", "/"), "AU", id)
+                    Case "AT"
+                        Dim AT As String() = Directory.GetFiles(Archi2, "AT*")
+                        If AT.Length = 0 Then
+                            MsgBox("El archivo AT no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                            Label2.Text = ""
+                            Exit Sub
+                        End If
+                        Label2.Text = "Importando Archivos de Otros Servicios"
+                        claseprocedure.RCargar_Control(Replace(AT(0), "\", "/"), "at01", id)
+                    Case "AU"
+                        Dim AU As String() = Directory.GetFiles(Archi2, "AT*")
+                        If AU.Length = 0 Then
+                            MsgBox("El archivo AT no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                            Label2.Text = ""
+                            Exit Sub
+                        End If
+                        Label2.Text = "Importando Archivos de Urgencias"
+                        claseprocedure.RCargar_Control(Replace(AU(0), "\", "/"), "AU", id)
 
-            End Select
-        Next
-        Dim eXC As String = claseprocedure.Excluir(idusu).ToString
+                End Select
+            Next
+            Dim eXC As String = claseprocedure.Excluir(idusu).ToString
         claseprocedure.Act_dATOSTB(idusu)
+        rrr("Actualizando datos")
         claseprocedure.Act_edades_Q_E_V()
-        claseprocedure.Act_CamposRep(idusu, eXC)
-        For Each MiDataRow As DataRow In controlCT.Rows
-            opcion = MiDataRow("Campo3")
-            Select Case Mid(opcion, 1, 2).ToUpper
-                Case "AC"
-                    claseprocedure.Validar_Consultas(idusu, eXC)
-                    claseprocedure.Validar_Consultastari(idusu, DropDownListPorcentaje.Text, "CUPS")
-                Case "AF"
-                    claseprocedure.Validar_Transaccion(idusu, eXC)
-                Case "AH"
-                    claseprocedure.Validar_Hospitalizacion(idusu, eXC)
-                Case "AM"
-                    claseprocedure.Validar_Medicamentos(idusu, eXC)
-                Case "AN"
-                    claseprocedure.Validar_Nacimientos(idusu, eXC)
-                Case "AP"
-                    claseprocedure.Validar_Procedimientos(idusu, eXC)
-                    claseprocedure.Validar_Procedimientostari(idusu, DropDownListPorcentaje.Text, "CUPS")
-                Case "AT"
-                    claseprocedure.Validar_Otros_servicios(idusu, eXC)
-                    claseprocedure.Validar_Otros_serviciostari(idusu, DropDownListPorcentaje.Text, "CUPS")
-                Case "AU"
-                    claseprocedure.Validar_Urgencias(idusu, eXC)
-                Case "US"
-                    claseprocedure.Validar_Usuarios(idusu, eXC)
-            End Select
-        Next
-        Label3.Visible = True
-    End Sub
-    Private Sub Llenar_Grid()
-        'Dim dt As New DataTable()
-        'dt.Columns.Add("Nombre Archivo")
-        'dt.Columns.Add("Numero de Registros")
-        'dt.Columns.Add("Registros Erroneos")
-        ''  GridViewDatos.DataSource =
-        'Dim llenar_grid_temp As New DataSet
-        'llenar_grid_temp = claseprocedure.Llenar
-        'Dim row As DataRow = dt.NewRow()
-        'Dim fi As String = claseprocedure.nombre_fichero()
-        'Dim fich As String = Replace(fi, ".txt", ".xlsx")
-        'row("Nombre Archivo") = fich
-        'row("Numero de Registros") = llenar_grid_temp.Tables(0).Rows(0).Item(0).ToString()
-        'row("Registros Erroneos") = llenar_grid_temp.Tables(0).Rows(0).Item(1).ToString()
-        'dt.Rows.Add(row)
-        'GridViewResultado.DataSource = dt
-        'GridViewResultado.DataBind()
-    End Sub
+            claseprocedure.Act_CamposRep(idusu, eXC)
+            For Each MiDataRow As DataRow In controlCT.Rows
+                opcion = MiDataRow("Campo3")
+                Select Case Mid(opcion, 1, 2).ToUpper
+                    Case "AC"
+                        claseprocedure.Validar_Consultas(idusu, eXC)
+                        claseprocedure.Validar_Consultastari(idusu, DropDownListPorcentaje.Text, "CUPS")
+                    Case "AF"
+                        claseprocedure.Validar_Transaccion(idusu, eXC)
+                    Case "AH"
+                        claseprocedure.Validar_Hospitalizacion(idusu, eXC)
+                    Case "AM"
+                        claseprocedure.Validar_Medicamentos(idusu, eXC)
+                    Case "AN"
+                        claseprocedure.Validar_Nacimientos(idusu, eXC)
+                    Case "AP"
+                        claseprocedure.Validar_Procedimientos(idusu, eXC)
+                        claseprocedure.Validar_Procedimientostari(idusu, DropDownListPorcentaje.Text, "CUPS")
+                    Case "AT"
+                        claseprocedure.Validar_Otros_servicios(idusu, eXC)
+                        claseprocedure.Validar_Otros_serviciostari(idusu, DropDownListPorcentaje.Text, "CUPS")
+                    Case "AU"
+                        claseprocedure.Validar_Urgencias(idusu, eXC)
+                    Case "US"
+                        claseprocedure.Validar_Usuarios(idusu, eXC)
+                End Select
+            Next
+            Label3.Visible = True
+        End Sub
+        Private Sub Llenar_Grid()
+            'Dim dt As New DataTable()
+            'dt.Columns.Add("Nombre Archivo")
+            'dt.Columns.Add("Numero de Registros")
+            'dt.Columns.Add("Registros Erroneos")
+            ''  GridViewDatos.DataSource =
+            'Dim llenar_grid_temp As New DataSet
+            'llenar_grid_temp = claseprocedure.Llenar
+            'Dim row As DataRow = dt.NewRow()
+            'Dim fi As String = claseprocedure.nombre_fichero()
+            'Dim fich As String = Replace(fi, ".txt", ".xlsx")
+            'row("Nombre Archivo") = fich
+            'row("Numero de Registros") = llenar_grid_temp.Tables(0).Rows(0).Item(0).ToString()
+            'row("Registros Erroneos") = llenar_grid_temp.Tables(0).Rows(0).Item(1).ToString()
+            'dt.Rows.Add(row)
+            'GridViewResultado.DataSource = dt
+            'GridViewResultado.DataBind()
+        End Sub
 
 
-    Dim pasaerE As New Pasar_ErroresRips
-    Sub Genera_Excel_errores()
+        Dim pasaerE As New Pasar_ErroresRips
+        Sub Genera_Excel_errores()
         'If String.IsNullOrEmpty(FileUploadImportar.PostedFile.FileName) Then
         '    ClientScript.RegisterStartupScript(Me.GetType(), "alert", "alert('Debe Primero Validar los Archivos de Rips ');", True)
         '    Exit Sub
         'End If
-        Dim af_, am, ac, ah, an, ap, at, au, us, ok_ As New DataTable
-        af_ = pasaerE.Obtener_Errores_AF(idusu) '.Rows.Count
-        am = pasaerE.Obtener_Errores_AM(idusu)
-        ac = pasaerE.Obtener_Errores_CA(idusu)
-        ah = pasaerE.Obtener_Errores_AH(idusu)
-        an = pasaerE.Obtener_Errores_AN(idusu)
-        ap = pasaerE.Obtener_Errores_AP(idusu)
-        at = pasaerE.Obtener_Errores_AT(idusu)
-        au = pasaerE.Obtener_Errores_AU(idusu)
-        us = pasaerE.Obtener_Errores_US(idusu)
-        Dim wb As New XLWorkbook()
+        Try
 
-        If af_.Rows.Count > 0 Then
-            wb.Worksheets.Add(af_, "Errores_AF")
-        End If
-        If am.Rows.Count > 0 Then
-            wb.Worksheets.Add(am, "Errores_Medicamentos")
-        End If
-        If ac.Rows.Count > 0 Then
-            wb.Worksheets.Add(ac, "Errores_en_Consultas")
-        End If
-        If ah.Rows.Count > 0 Then
-            wb.Worksheets.Add(ah, "Errores_en_Hospitali")
-        End If
-        If an.Rows.Count > 0 Then
-            wb.Worksheets.Add(an, "Errores_en_Nacimiento")
-        End If
-        If ap.Rows.Count > 0 Then
-            wb.Worksheets.Add(ap, "Errores_en_Procedimientos")
-        End If
-        If at.Rows.Count > 0 Then
-            wb.Worksheets.Add(at, "Errores_en_OtrosServicios")
-        End If
-        If au.Rows.Count > 0 Then
-            wb.Worksheets.Add(au, "Errores_en_Urgencias")
-        End If
-        If us.Rows.Count > 0 Then
-            wb.Worksheets.Add(us, "Errores_en_Usuarios")
-        End If
-        ok_.Columns.Add(" ")
-        ok_.Rows.Add(" ")
-        wb.Worksheets.Add(ok_, ".")
-        wb.Author = "Simetria"
-        Response.Clear()
-        Response.Buffer = True
-        Response.Charset = ""
-        Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        Response.AddHeader("content-disposition", "attachment;filename=Errores_Rips.xlsx")
-        Dim MyMemoryStream As New MemoryStream()
-        wb.SaveAs(MyMemoryStream)
-        MyMemoryStream.WriteTo(Response.OutputStream)
-        Response.Flush()
-        Response.End()
-        If af_.Rows.Count = 0 And am.Rows.Count And ac.Rows.Count = 0 And ah.Rows.Count = 0 And an.Rows.Count = 0 And ap.Rows.Count = 0 And at.Rows.Count = 0 And au.Rows.Count = 0 And us.Rows.Count = 0 Then
 
-        Else
-            ClientScript.RegisterStartupScript(Me.GetType(), "alert", "alert('No hay Archivos para Descargar ');", True)
+            Dim af_, am, ac, ah, an, ap, at, au, us, ok_ As New DataTable
+            af_ = pasaerE.Obtener_Errores_AF(idusu) '.Rows.Count
+            am = pasaerE.Obtener_Errores_AM(idusu)
+            ac = pasaerE.Obtener_Errores_CA(idusu)
+            ah = pasaerE.Obtener_Errores_AH(idusu)
+            an = pasaerE.Obtener_Errores_AN(idusu)
+            ap = pasaerE.Obtener_Errores_AP(idusu)
+            at = pasaerE.Obtener_Errores_AT(idusu)
+            au = pasaerE.Obtener_Errores_AU(idusu)
+            us = pasaerE.Obtener_Errores_US(idusu)
+            Dim wb As New XLWorkbook()
+            If af_.Rows.Count > 0 Then
+                wb.Worksheets.Add(af_, "Errores_AF")
+            End If
+            If am.Rows.Count > 0 Then
+                wb.Worksheets.Add(am, "Errores_Medicamentos")
+            End If
 
-        End If
+            If ac.Rows.Count > 0 Then
+                wb.Worksheets.Add(ac, "Errores_en_Consultas")
+            End If
+
+            If ah.Rows.Count > 0 Then
+                wb.Worksheets.Add(ah, "Errores_en_Hospitali")
+            End If
+
+            If an.Rows.Count > 0 Then
+                wb.Worksheets.Add(an, "Errores_en_Nacimiento")
+            End If
+            If ap.Rows.Count > 0 Then
+                wb.Worksheets.Add(ap, "Errores_en_Procedimientos")
+            End If
+
+            If at.Rows.Count > 0 Then
+                wb.Worksheets.Add(at, "Errores_en_OtrosServicios")
+            End If
+
+            If au.Rows.Count > 0 Then
+                wb.Worksheets.Add(au, "Errores_en_Urgencias")
+            End If
+
+            If us.Rows.Count > 0 Then
+                wb.Worksheets.Add(us, "Errores_en_Usuarios")
+            End If
+            ok_.Columns.Add(" ")
+            ok_.Rows.Add(" ")
+            wb.Worksheets.Add(ok_, ".")
+            wb.Author = "Simetria"
+            Response.Clear()
+            Response.Buffer = True
+            Response.Charset = ""
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            Response.AddHeader("content-disposition", "attachment;filename=Errores_Rips.xlsx")
+            Dim MyMemoryStream As New MemoryStream()
+            wb.SaveAs(MyMemoryStream)
+            MyMemoryStream.WriteTo(Response.OutputStream)
+            Response.Flush()
+            Response.End()
+            If af_.Rows.Count = 0 And am.Rows.Count And ac.Rows.Count = 0 And ah.Rows.Count = 0 And an.Rows.Count = 0 And ap.Rows.Count = 0 And at.Rows.Count = 0 And au.Rows.Count = 0 And us.Rows.Count = 0 Then
+
+            Else
+                ClientScript.RegisterStartupScript(Me.GetType(), "alert", "alert('No hay Archivos para Descargar ');", True)
+
+            End If
+        Catch ex As Exception
+            Response.Write("<script language=""javascript"">")
+            If ex.InnerException Is Nothing Then
+
+                Response.Write("alert(""" + ex.Message.ToString() + """);")
+            Else
+                Response.Write("alert(""" + ex.InnerException.Message.ToString() + """);")
+            End If
+            Response.Write("</script>")
+        End Try
     End Sub
 
-    Protected Sub ButtonInforme_Click(sender As Object, e As EventArgs) Handles ButtonInforme.Click
-        Genera_Excel_errores()
-    End Sub
+        Protected Sub ButtonInforme_Click(sender As Object, e As EventArgs) Handles ButtonInforme.Click
+            Genera_Excel_errores()
+        End Sub
 
-    Protected Sub ButtonValidar_(sender As Object, e As EventArgs) Handles ButtonValidar.Click
-        Dim conect As New ClassConexion
-        Dim claseprocedure As New Codprocedure
-        Label2.Visible = False
+        Protected Sub ButtonValidar_(sender As Object, e As EventArgs) Handles ButtonValidar.Click
+            Dim conect As New ClassConexion
+            Dim claseprocedure As New Codprocedure
+            Label2.Visible = False
         Try
             If DropDownListPorcentaje.Text = "0" Then
                 ClientScript.RegisterStartupScript(Me.GetType(), "alert", "alert('Debe seleccionar el porcentaje de validacion ');", True)
@@ -290,9 +349,18 @@ Public Class ValidacionRips
             End If
 
         Catch ex As Exception
-            MsgBox(ex.Message)
+            Response.Write("<script language=""javascript"">")
+            If ex.InnerException Is Nothing Then
+
+                Response.Write("alert(""" + ex.Message.ToString() + """);")
+            Else
+                Response.Write("alert(""" + ex.InnerException.Message.ToString() + """);")
+            End If
+            Response.Write("</script>")
+
+
         End Try
-    End Sub
+        End Sub
 
 
-End Class
+    End Class

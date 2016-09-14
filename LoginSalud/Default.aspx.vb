@@ -40,8 +40,14 @@ Public Class _Default
                 Label3.Visible = True
             End Using
         Catch ex As Exception
+            Response.Write("<script language=""javascript"">")
+            If ex.InnerException Is Nothing Then
 
-            ClientScript.RegisterStartupScript(Me.GetType(), "alert", "alert('Error Ingresar');", True)
+                Response.Write("alert(""" + ex.Message.ToString() + """);")
+            Else
+                Response.Write("alert(""" + ex.InnerException.Message.ToString() + """);")
+            End If
+            Response.Write("</script>")
         End Try
     End Sub
 End Class
