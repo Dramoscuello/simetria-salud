@@ -152,6 +152,31 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\css\AdminLTE.css" />
+    <Content Include="Content\bootstrap\css\AdminLTE.min.css" />
+    <Content Include="Content\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\css\fileinput.css" />
+    <Content Include="Content\bootstrap\css\fileinput.min.css" />
+    <Content Include="Content\bootstrap\css\font-awesome.min.css" />
+    <Content Include="Content\bootstrap\css\form.css" />
+    <Content Include="Content\bootstrap\css\ionicons.min.css" />
+    <Content Include="Content\bootstrap\css\Site.css" />
+    <Content Include="Content\bootstrap\css\StyleSheet1.css" />
+    <Content Include="Content\bootstrap\js\app.min.js" />
+    <Content Include="Content\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\bootstrap\js\dashboard.js" />
+    <Content Include="Content\bootstrap\js\fileinput.js" />
+    <Content Include="Content\bootstrap\js\fileinput.min.js" />
+    <Content Include="Content\bootstrap\js\jquery.js" />
+    <Content Include="Content\bootstrap\js\themes\dark-blue.js" />
+    <Content Include="Content\bootstrap\js\themes\dark-green.js" />
+    <Content Include="Content\bootstrap\js\themes\gray.js" />
+    <Content Include="Content\bootstrap\js\themes\grid.js" />
+    <Content Include="Content\bootstrap\skins\_all-skins.min.css" />
     <Content Include="Default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="IMG\icon.ico" />
@@ -168,6 +193,13 @@
     <Content Include="Views\login.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Content\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -204,7 +236,7 @@
     </Compile>
     <Compile Include="Models\ClassConexion.vb" />
     <Compile Include="Models\ClassDatos.vb" />
-    <Compile Include="Models\Codprocedure.vb" />
+    <Compile Include="Models\CodRips.vb" />
     <Compile Include="Models\Pasar_ErroresRips.vb" />
     <Compile Include="Views\login.aspx.designer.vb">
       <DependentUpon>login.aspx</DependentUpon>

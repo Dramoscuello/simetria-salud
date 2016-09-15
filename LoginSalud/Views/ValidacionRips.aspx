@@ -12,7 +12,13 @@
     <p>
         &nbsp;
     </p>
+
+       
+        <div class="" >
+    
     <div class="Contenido">
+      
+
         <asp:Label ID="Label1" runat="server" Text="Porcentaje de validacion  "></asp:Label>
         <asp:DropDownList ID="DropDownListPorcentaje" runat="server">
             <asp:ListItem Value="0">0</asp:ListItem>
@@ -52,7 +58,7 @@
     </div>
 
     <br />
-  
+  </div>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Cfoot" runat="server">

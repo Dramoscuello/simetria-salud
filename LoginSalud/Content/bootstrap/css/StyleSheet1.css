@@ -1,8 +1,16 @@
 ﻿.Contenido {
 
      position:absolute;
-  top: 44%; 
-  left: 51%;
+  top: 40% ;
+  left: 50%;
   transform: translate(-50%, -50%);
     width: auto;
+}
+
+
+
+.HEADCONTENIDO {
+     position:absolute;
+  top: 12% ;
+      width: auto;
 }
