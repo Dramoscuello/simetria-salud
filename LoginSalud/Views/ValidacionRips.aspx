@@ -43,18 +43,12 @@
         <asp:Button ID="ButtonInforme" runat="server" Text="Descagar informe" CssClass="btn btn-success" />
     <br />
         <br />
-        <asp:Label ID="Label2" runat="server" Text=""></asp:Label>
+        <asp:Label ID="Label2" runat="server"></asp:Label>
            <br />
 
         <br />
-      
-          <asp:Label ID="Label3" runat="server">
-
-                <div class="alert alert-dismissible alert alert-info mtop">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    <strong>Validacion Terminada</strong>
-                </div>
-            </asp:Label>
+        <div id="boxmessage" runat="server"></div>
+                
     </div>
 
     <br />
