@@ -34,63 +34,63 @@ Public Class ValidacionRips
                 Case "US"
                     Dim US_ As String() = Directory.GetFiles(Archi2, "US*")
                     If US_.Length = 0 Then
-                        MsgBox("El archivo US no Existe-- " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                        ClientScript.RegisterStartupScript(Me.GetType, "alerta", "swal('¡Alerta!','¡El archivo US " & opcion & " no Existe!', 'warning')", True)
                         Exit Sub
                     End If
                     claseprocedure.RCargar_Control(Replace(US_(0), "\", "/"), "US", id)
                 Case "AC"
                     Dim AC As String() = Directory.GetFiles(Archi2, "AC*")
                     If AC.Length = 0 Then
-                        MsgBox("El archivo AC no Existe-- " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                        ClientScript.RegisterStartupScript(Me.GetType, "alerta", "swal('¡Alerta!','¡El archivo AC " & opcion & " no Existe!', 'warning')", True)
                         Exit Sub
                     End If
                     claseprocedure.RCargar_Control(Replace(AC(0), "\", "/"), "AC", id)
                 Case "AF"
                     Dim AF As String() = Directory.GetFiles(Archi2, "AF*")
                     If AF.Length = 0 Then
-                        MsgBox("El archivo AF no Existe  - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                        ClientScript.RegisterStartupScript(Me.GetType, "alerta", "swal('¡Alerta!','¡El archivo AF " & opcion & " no Existe!', 'warning')", True)
                         Exit Sub
                     End If
                     claseprocedure.RCargar_Control(Replace(AF(0), "\", "/"), "AF", id)
                 Case "AH"
                     Dim AH As String() = Directory.GetFiles(Archi2, "AH*")
                     If AH.Length = 0 Then
-                        MsgBox("El archivo AH no Existe  - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                        ClientScript.RegisterStartupScript(Me.GetType, "alerta", "swal('¡Alerta!','¡El archivo AH " & opcion & " no Existe!', 'warning')", True)
                         Exit Sub
                     End If
                     claseprocedure.RCargar_Control(Replace(AH(0), "\", "/"), "AH", id)
                 Case "AM"
                     Dim AM As String() = Directory.GetFiles(Archi2, "AM*")
                     If AM.Length = 0 Then
-                        MsgBox("El archivo AM no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                        ClientScript.RegisterStartupScript(Me.GetType, "alerta", "swal('¡Alerta!','¡El archivo AM " & opcion & " no Existe!', 'warning')", True)
                         Exit Sub
                     End If
                     claseprocedure.RCargar_Control(Replace(AM(0), "\", "/"), "AM", id)
                 Case "AN"
                     Dim AN As String() = Directory.GetFiles(Archi2, "AN*")
                     If AN.Length = 0 Then
-                        MsgBox("El archivo AN no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                        ClientScript.RegisterStartupScript(Me.GetType, "alerta", "swal('¡Alerta!','¡El archivo AN " & opcion & " no Existe!', 'warning')", True)
                         Exit Sub
                     End If
                     claseprocedure.RCargar_Control(Replace(AN(0), "\", "/"), "AN", id)
                 Case "AP"
                     Dim AP As String() = Directory.GetFiles(Archi2, "AP*")
                     If AP.Length = 0 Then
-                        MsgBox("El archivo AP no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                        ClientScript.RegisterStartupScript(Me.GetType, "alerta", "swal('¡Alerta!','¡El archivo AP " & opcion & " no Existe!', 'warning')", True)
                         Exit Sub
                     End If
                     claseprocedure.RCargar_Control(Replace(AP(0), "\", "/"), "AP", id)
                 Case "AT"
                     Dim AT As String() = Directory.GetFiles(Archi2, "AT*")
                     If AT.Length = 0 Then
-                        MsgBox("El archivo AT no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                        ClientScript.RegisterStartupScript(Me.GetType, "alerta", "swal('¡Alerta!','¡El archivo AT " & opcion & " no Existe!', 'warning')", True)
                         Exit Sub
                     End If
                     claseprocedure.RCargar_Control(Replace(AT(0), "\", "/"), "at01", id)
                 Case "AU"
-                    Dim AU As String() = Directory.GetFiles(Archi2, "AT*")
+                    Dim AU As String() = Directory.GetFiles(Archi2, "AU*")
                     If AU.Length = 0 Then
-                        MsgBox("El archivo AT no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
+                        ClientScript.RegisterStartupScript(Me.GetType, "alerta", "swal('¡Alerta!','¡El archivo AU " & opcion & " no Existe!', 'warning')", True)
                         Exit Sub
                     End If
                     claseprocedure.RCargar_Control(Replace(AU(0), "\", "/"), "AU", id)
@@ -99,12 +99,13 @@ Public Class ValidacionRips
 
         Dim eXC As String = claseprocedure.Excluir("11", idusu).ToString
         claseprocedure.Act_dATOSTB(idusu)
-        claseprocedure.Act_edades_Q_E_V()
+        claseprocedure.Act_edades_Q_E_V(idusu)
         claseprocedure.Act_CamposRep(idusu, eXC)
         For Each MiDataRow As DataRow In controlCT.Rows
             opcion = MiDataRow("Campo3")
             Select Case Mid(opcion, 1, 2).ToUpper
                 Case "AC"
+
                     claseprocedure.Validar_Consultas(idusu, eXC, DropDownListPorcentaje.Text)
                    ' claseprocedure.Validar_Consultastari(idusu, DropDownListPorcentaje.Text, "CUPS")
                 Case "AF"
@@ -243,22 +244,23 @@ Public Class ValidacionRips
                 ClientScript.RegisterStartupScript(Me.GetType, "alerta", "swal('¡Alerta!','Debe seleccionar el porcentaje de validación', 'warning')", True)
                 Exit Sub
             End If
-            claseprocedure.Eliminar_Registros_Usuarios(idusu)
-            If IO.Directory.Exists(Server.MapPath("Validacion/")) Then
-                For Each item As String In Directory.GetFiles(Server.MapPath("Validacion/"))
+
+            If IO.Directory.Exists(Server.MapPath(idusu & "/")) Then
+                For Each item As String In Directory.GetFiles(Server.MapPath(idusu & "/"))
                     File.Delete(item)
                 Next
             End If
-            My.Computer.FileSystem.CreateDirectory(Server.MapPath("Validacion/"))
+            My.Computer.FileSystem.CreateDirectory(Server.MapPath(idusu & "/"))
 
-            Dim x As String = Server.MapPath("Validacion/")
+            Dim x As String = Server.MapPath(idusu & "/")
             Dim path As String = FileUploadImportar.PostedFile.FileName
             Dim source As String = Replace(x, "\", "/")
             If Not String.IsNullOrEmpty(path) Then
+                claseprocedure.Eliminar_Registros_Usuarios(idusu)
                 Dim ImageFiles As HttpFileCollection = Request.Files
                 For i As Integer = 0 To ImageFiles.Count - 1
                     Dim file As HttpPostedFile = ImageFiles(i)
-                    file.SaveAs(Server.MapPath("Validacion/") & file.FileName)
+                    file.SaveAs(Server.MapPath(idusu & "/") & file.FileName)
                     Dim nomb As String = Mid(file.FileName, 1, 2)
                     If nomb = "CT" Or nomb = "Ct" Or nomb = "cT" Or nomb = "ct" Then
                         claseprocedure.RCargar_Control(source + file.FileName, UCase(nomb), idusu)
@@ -271,7 +273,7 @@ Public Class ValidacionRips
                 Else
                     cargar_Solo_Nombres(idusu, source, "")
                 End If
-                My.Computer.FileSystem.DeleteFile(Server.MapPath("Validacion/") + path)
+                My.Computer.FileSystem.DeleteFile(Server.MapPath(idusu & "/") + path)
                 path = Nothing
             ElseIf String.IsNullOrEmpty(path) Then
                 ClientScript.RegisterStartupScript(Me.GetType, "alerta", "swal('¡Alerta!','Debe seleccionar los Archivos de Rips', 'warning')", True)

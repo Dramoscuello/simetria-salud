@@ -174,7 +174,7 @@ Public Class CodRips
             End Try
         End Using
     End Sub
-    Public Sub Act_edades_Q_E_V()
+    Public Sub Act_edades_Q_E_V(ByRef id As String)
         Dim sSQL As String
         Using cn As New MySqlConnection(conexion)
             cn.Open()
@@ -182,6 +182,7 @@ Public Class CodRips
             Try
                 Using cmd As New MySqlCommand(sSQL, cn)
                     cmd.CommandType = CommandType.StoredProcedure
+                    cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
                     cmd.CommandTimeout = 900000000
                     cmd.ExecuteNonQuery()
                 End Using
