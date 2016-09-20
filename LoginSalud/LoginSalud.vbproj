@@ -177,9 +177,11 @@
     <Content Include="Content\bootstrap\js\themes\gray.js" />
     <Content Include="Content\bootstrap\js\themes\grid.js" />
     <Content Include="Content\bootstrap\skins\_all-skins.min.css" />
+    <Content Include="Content\sweetalert.css" />
     <Content Include="Default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="IMG\icon.ico" />
+    <Content Include="IMG\idem-loading.gif" />
     <Content Include="IMG\logout.png" />
     <Content Include="IMG\user2-160x160.jpg" />
     <Content Include="Global.asax" />
@@ -190,6 +192,8 @@
     <Content Include="IMG\avatar.pgn.png" />
     <Content Include="IMG\Logo.png" />
     <Content Include="IMG\salir.png" />
+    <Content Include="Views\loading.gif" />
+    <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Views\login.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

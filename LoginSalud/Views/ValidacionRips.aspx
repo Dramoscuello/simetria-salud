@@ -9,16 +9,11 @@
     <link href="../Content/bootstrap/css/StyleSheet1.css" rel="stylesheet" />
     <script src="../Content/bootstrap/js/fileinput.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <p>
-        &nbsp;
-    </p>
-
-       
-        <div class="" >
+    <script src="../Scripts/sweetalert.min.js"></script>
+    <link href="../Content/sweetalert.css" rel="stylesheet"/>
     
     <div class="Contenido">
-      
-
+        
         <asp:Label ID="Label1" runat="server" Text="Porcentaje de validacion  "></asp:Label>
         <asp:DropDownList ID="DropDownListPorcentaje" runat="server">
             <asp:ListItem Value="0">0</asp:ListItem>
@@ -37,23 +32,16 @@
         <br />
         <div class="form-group">
             <asp:FileUpload ID="FileUploadImportar" runat="server" class="file" Multiple="Multiple" />
-
         </div>
-        <asp:Button ID="ButtonValidar" runat="server" Text="Validar" ToolTip="Iniciar validacion" CssClass="btn btn-success" />
+         <asp:Button ID="ButtonValidar" runat="server" Text="Validar" ToolTip="Iniciar validacion" CssClass="btn btn-success" OnClientClick="Saludar()"/>
         <asp:Button ID="ButtonInforme" runat="server" Text="Descagar informe" CssClass="btn btn-success" />
-    <br />
-        <br />
-        <asp:Label ID="Label2" runat="server"></asp:Label>
-           <br />
 
-        <br />
-        <div id="boxmessage" runat="server"></div>
-                
+        <script>
+            function Saludar() {
+                swal({ title: "Validando...", text: "Espere por favor...", imageUrl: "../IMG/idem-loading.gif", showConfirmButton: false });
+            }
+        </script>
     </div>
-
-    <br />
-  </div>
-
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="Cfoot" runat="server">
 </asp:Content>

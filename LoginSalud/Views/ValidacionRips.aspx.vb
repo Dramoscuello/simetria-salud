@@ -4,6 +4,7 @@
 'Imports System.Runtime.InteropServices
 Imports System.IO
 Imports ClosedXML.Excel
+Imports System.Threading
 
 Public Class ValidacionRips
     Inherits System.Web.UI.Page
@@ -15,13 +16,11 @@ Public Class ValidacionRips
         Response.Cache.SetAllowResponseInBrowserHistory(False)
         Response.Cache.SetNoStore()
         If Session("usuario") IsNot Nothing Then
-            'boxmessage.Visible = False
             idusu = Session("usuario")
         Else
             Response.Redirect("~/Ingreso")
         End If
         ButtonInforme.Enabled = False
-        Label2.Text = ""
     End Sub
 
     Private Sub cargar_Solo_Nombres(ByRef id As String, ByRef Archi2 As String, ByRef nombre As String)
@@ -36,90 +35,64 @@ Public Class ValidacionRips
                     Dim US_ As String() = Directory.GetFiles(Archi2, "US*")
                     If US_.Length = 0 Then
                         MsgBox("El archivo US no Existe-- " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
                         Exit Sub
                     End If
-                    Label2.Text = "Importando Archivos de Usuarios"
                     claseprocedure.RCargar_Control(Replace(US_(0), "\", "/"), "US", id)
-
                 Case "AC"
                     Dim AC As String() = Directory.GetFiles(Archi2, "AC*")
                     If AC.Length = 0 Then
                         MsgBox("El archivo AC no Existe-- " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
                         Exit Sub
                     End If
-                    Label2.Text = "Importando Archivos de Consultas"
                     claseprocedure.RCargar_Control(Replace(AC(0), "\", "/"), "AC", id)
-
                 Case "AF"
                     Dim AF As String() = Directory.GetFiles(Archi2, "AF*")
                     If AF.Length = 0 Then
                         MsgBox("El archivo AF no Existe  - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
                         Exit Sub
                     End If
-                    Label2.Text = "Importando Archivos de transacciones"
                     claseprocedure.RCargar_Control(Replace(AF(0), "\", "/"), "AF", id)
-
                 Case "AH"
                     Dim AH As String() = Directory.GetFiles(Archi2, "AH*")
                     If AH.Length = 0 Then
                         MsgBox("El archivo AH no Existe  - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
                         Exit Sub
                     End If
-                    Label2.Text = "Importando Archivos de Hospitalizacion"
                     claseprocedure.RCargar_Control(Replace(AH(0), "\", "/"), "AH", id)
-
                 Case "AM"
                     Dim AM As String() = Directory.GetFiles(Archi2, "AM*")
                     If AM.Length = 0 Then
                         MsgBox("El archivo AM no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
                         Exit Sub
                     End If
-                    Label2.Text = "Importando Archivos de Medicamentos"
                     claseprocedure.RCargar_Control(Replace(AM(0), "\", "/"), "AM", id)
-
                 Case "AN"
                     Dim AN As String() = Directory.GetFiles(Archi2, "AN*")
                     If AN.Length = 0 Then
                         MsgBox("El archivo AN no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
                         Exit Sub
                     End If
-                    Label2.Text = "Importando Archivos de Nacimiento"
                     claseprocedure.RCargar_Control(Replace(AN(0), "\", "/"), "AN", id)
-
                 Case "AP"
                     Dim AP As String() = Directory.GetFiles(Archi2, "AP*")
                     If AP.Length = 0 Then
                         MsgBox("El archivo AP no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
                         Exit Sub
                     End If
-                    Label2.Text = "Importando Archivos de Procedimientos"
                     claseprocedure.RCargar_Control(Replace(AP(0), "\", "/"), "AP", id)
-
                 Case "AT"
                     Dim AT As String() = Directory.GetFiles(Archi2, "AT*")
                     If AT.Length = 0 Then
                         MsgBox("El archivo AT no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
                         Exit Sub
                     End If
-                    Label2.Text = "Importando Archivos de Otros Servicios"
                     claseprocedure.RCargar_Control(Replace(AT(0), "\", "/"), "at01", id)
-
                 Case "AU"
                     Dim AU As String() = Directory.GetFiles(Archi2, "AT*")
                     If AU.Length = 0 Then
                         MsgBox("El archivo AT no Existe - " & opcion, MsgBoxStyle.Information, "Simetria Consolidated")
-                        Label2.Text = ""
                         Exit Sub
                     End If
-                    Label2.Text = "Importando Archivos de Urgencias"
                     claseprocedure.RCargar_Control(Replace(AU(0), "\", "/"), "AU", id)
             End Select
         Next
@@ -154,9 +127,9 @@ Public Class ValidacionRips
                     claseprocedure.Validar_Usuarios(idusu, eXC)
             End Select
         Next
-        'boxmessage.Visible = True
-        boxmessage.InnerHtml = "<div class='alert-dismissible alert alert-success mtop'><button type='button' class='close' data-dismiss='alert'>&times;</button><span>Validacion terminada</span></div>"
         ButtonInforme.Enabled = True
+        'Thread.Sleep(2000)
+        ClientScript.RegisterStartupScript(Me.GetType, "ok", "swal('¡Validación terminada!','¡descargue el informe!', 'success')", True)
     End Sub
     Private Sub Llenar_Grid()
         'Dim dt As New DataTable()
@@ -246,20 +219,14 @@ Public Class ValidacionRips
             Response.End()
             If af_.Rows.Count = 0 And am.Rows.Count And ac.Rows.Count = 0 And ah.Rows.Count = 0 And an.Rows.Count = 0 And ap.Rows.Count = 0 And at.Rows.Count = 0 And au.Rows.Count = 0 And us.Rows.Count = 0 Then
             Else
-                boxmessage.InnerHtml = "<div class='alert-dismissible alert alert-danger mtop'><button type='button' class='close' data-dismiss='alert'>&times;</button><span>No hay Archivos para Descargar</span></div>"
-                'ClientScript.RegisterStartupScript(Me.GetType(), "alert", "alert('No hay Archivos para Descargar ');", True)
+                ClientScript.RegisterStartupScript(Me.GetType, "error", "swal('¡Error!','No hay Archivos para Descargar', 'error')", True)
             End If
         Catch ex As Exception
-            'boxmessage.Visible = False
-            'Response.Write("<script language=""javascript"">")
             If ex.InnerException Is Nothing Then
-                'Response.Write("alert(""" + ex.Message.ToString() + """);")
-                boxmessage.InnerHtml = "<div class='alert-dismissible alert alert-danger mtop'><button type='button' class='close' data-dismiss='alert'>&times;</button><span>" + ex.Message.ToString() + "</span></div>"
+                ClientScript.RegisterStartupScript(Me.GetType, "error1", "swal('¡Error!'," + ex.Message.ToString() + ", 'error')", True)
             Else
-                'Response.Write("alert(""" + ex.InnerException.Message.ToString() + """);")
-                boxmessage.InnerHtml = "<div class='alert-dismissible alert alert-danger mtop'><button type='button' class='close' data-dismiss='alert'>&times;</button><span>" + ex.InnerException.Message.ToString() + "</span></div>"
+                ClientScript.RegisterStartupScript(Me.GetType, "error2", "swal('¡Error!'," + ex.InnerException.Message.ToString() + ", 'error')", True)
             End If
-            'Response.Write("</script>")
         End Try
     End Sub
 
@@ -267,14 +234,13 @@ Public Class ValidacionRips
         Genera_Excel_errores()
     End Sub
 
+
     Protected Sub ButtonValidar_(sender As Object, e As EventArgs) Handles ButtonValidar.Click
-        boxmessage.InnerHtml = ""
         Dim conect As New ClassConexion
         Dim claseprocedure As New CodRips
         Try
             If DropDownListPorcentaje.Text = "0" Then
-                'ClientScript.RegisterStartupScript(Me.GetType(), "alert", "alert('Debe seleccionar el porcentaje de validacion ');", True)
-                boxmessage.InnerHtml = "<div class='alert-dismissible alert alert-danger mtop'><button type='button' class='close' data-dismiss='alert'>&times;</button><span>Debe seleccionar el porcentaje de validacion</span></div>"
+                ClientScript.RegisterStartupScript(Me.GetType, "alerta", "swal('¡Alerta!','Debe seleccionar el porcentaje de validación', 'warning')", True)
                 Exit Sub
             End If
             claseprocedure.Eliminar_Registros_Usuarios(idusu)
@@ -293,42 +259,29 @@ Public Class ValidacionRips
                 For i As Integer = 0 To ImageFiles.Count - 1
                     Dim file As HttpPostedFile = ImageFiles(i)
                     file.SaveAs(Server.MapPath("Validacion/") & file.FileName)
-                    Label2.Text = "Cargando Archivos al Servidor"
                     Dim nomb As String = Mid(file.FileName, 1, 2)
                     If nomb = "CT" Or nomb = "Ct" Or nomb = "cT" Or nomb = "ct" Then
                         claseprocedure.RCargar_Control(source + file.FileName, UCase(nomb), idusu)
-                        Label2.Text = "Importando Archivos CT"
                     End If
                 Next
                 Dim ct As String() = Directory.GetFiles(source, "CT*")
                 If ct.Length = 0 Then
-                    'ClientScript.RegisterStartupScript(Me.GetType(), "alert", "alert('Error el archivo CT no Existe  Verifique e intente nuevamente');", True)
-                    boxmessage.InnerHtml = "<div class='alert-dismissible alert alert-danger mtop'><button type='button' class='close' data-dismiss='alert'>&times;</button><span>Error el archivo CT no Existe  Verifique e intente nuevamente</span></div>"
-                    Label2.Text = ""
+                    ClientScript.RegisterStartupScript(Me.GetType, "error3", "swal('¡Error!','Error el archivo CT no Existe  Verifique e intente nuevamente', 'error')", True)
                     Exit Sub
                 Else
                     cargar_Solo_Nombres(idusu, source, "")
                 End If
                 My.Computer.FileSystem.DeleteFile(Server.MapPath("Validacion/") + path)
-
                 path = Nothing
             ElseIf String.IsNullOrEmpty(path) Then
-                'ClientScript.RegisterStartupScript(Me.GetType(), "alert", "alert('Debe seleccionar los Archivos de Rips ');", True)
-                boxmessage.InnerHtml = "<div class='alert-dismissible alert alert-danger mtop'><button type='button' class='close' data-dismiss='alert'>&times;</button><span>Debe seleccionar los Archivos de Rips</span></div>"
+                ClientScript.RegisterStartupScript(Me.GetType, "alerta", "swal('¡Alerta!','Debe seleccionar los Archivos de Rips', 'warning')", True)
             End If
-            'ButtonInforme.Enabled = True
         Catch ex As Exception
-            'ButtonInforme.Enabled = False
-            'Label2.Visible = False
-            'Response.Write("<script language=""javascript"">")
             If ex.InnerException Is Nothing Then
-                'Response.Write("alert(""" + ex.Message.ToString() + """);")
-                boxmessage.InnerHtml = "<div class='alert-dismissible alert alert-danger mtop'><button type='button' class='close' data-dismiss='alert'>&times;</button><span>" + ex.Message.ToString() + "</span></div>"
+                ClientScript.RegisterStartupScript(Me.GetType, "error4", "swal('¡Error!'," + ex.Message.ToString() + ", 'error')", True)
             Else
-                'Response.Write("alert(""" + ex.InnerException.Message.ToString() + """);")
-                boxmessage.InnerHtml = "<div class='alert-dismissible alert alert-danger mtop'><button type='button' class='close' data-dismiss='alert'>&times;</button><span>" + ex.InnerException.Message.ToString() + "</span></div>"
+                ClientScript.RegisterStartupScript(Me.GetType, "error5", "swal('¡Error!'," + ex.InnerException.Message.ToString() + ", 'error')", True)
             End If
-            'Response.Write("</script>")
         End Try
     End Sub
 End Class
