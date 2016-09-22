@@ -103,7 +103,7 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i>Validacion 1479</a></li>
+                        <li><a href='<%=ResolveUrl("~/Validacion1479") %>'><i class="fa fa-circle-o"></i>Validacion 1479</a></li>
                         <li><a href="#"><i class="fa fa-circle-o"></i>Creacion 2175</a></li>
                     </ul>
                 </li>

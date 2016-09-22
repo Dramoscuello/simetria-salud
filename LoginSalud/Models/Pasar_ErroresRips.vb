@@ -25,6 +25,7 @@ Public Class Pasar_ErroresRips
                     coma.SelectCommand = cmd
                     coma.Fill(tbl)
                     Return tbl
+                    cn.Close()
                 End Using
             End Using
         Catch ex As MySqlException

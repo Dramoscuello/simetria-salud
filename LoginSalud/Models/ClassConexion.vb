@@ -4,7 +4,7 @@ Public Class ClassConexion
 
     Public Function CrearConexion() As MySqlConnection
         Try
-            Dim dato_Con As String = "server=www.simetriasi.net;user id=root;password=0101;port=3306;database=dblevalidamos;CHARSET=utf8; Allow User Variables=True;"
+            Dim dato_Con As String = "server=localhost;user id=root;password=0101;port=3306;database=dblevalidamos;CHARSET=utf8; Allow User Variables=True;"
 
             Dim MySqlConexion As New MySqlConnection(dato_Con)
             Return MySqlConexion

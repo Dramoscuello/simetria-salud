@@ -192,6 +192,7 @@
     <Content Include="IMG\avatar.pgn.png" />
     <Content Include="IMG\Logo.png" />
     <Content Include="IMG\salir.png" />
+    <Content Include="Views\1479.aspx" />
     <Content Include="Views\loading.gif" />
     <Content Include="Scripts\sweetalert.min.js" />
     <Content Include="Views\login.aspx" />
@@ -228,6 +229,7 @@
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Models\Validacion1479.vb" />
     <Compile Include="Site1.Master.designer.vb">
       <DependentUpon>Site1.Master</DependentUpon>
     </Compile>
@@ -242,6 +244,13 @@
     <Compile Include="Models\ClassDatos.vb" />
     <Compile Include="Models\CodRips.vb" />
     <Compile Include="Models\Pasar_ErroresRips.vb" />
+    <Compile Include="Views\1479.aspx.designer.vb">
+      <DependentUpon>1479.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\1479.aspx.vb">
+      <DependentUpon>1479.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="Views\login.aspx.designer.vb">
       <DependentUpon>login.aspx</DependentUpon>
     </Compile>

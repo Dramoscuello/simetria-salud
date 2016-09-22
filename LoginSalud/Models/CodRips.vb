@@ -7,7 +7,8 @@ Imports MySql.Data.MySqlClient
 Public Class CodRips
     Dim conect As New ClassConexion
     Dim oComando As MySqlCommand
-
+    Dim rips As New ValidacionRips
+    Public ex As New Exception
     Dim conexion As String = conect.CrearConexion.ConnectionString
     Public Sub Eliminar_Registros_Usuarios(ByRef id As String)
         With Me
@@ -22,8 +23,9 @@ Public Class CodRips
                     cmd.CommandType = CommandType.StoredProcedure
                     cmd.ExecuteNonQuery()
                 End Using
-            Catch ex As MySqlException
-                MsgBox(ex.Message, , sSQL)
+
+            Catch ex As Exception
+                ex.ToString()
             End Try
         End With
     End Sub
@@ -65,7 +67,7 @@ Public Class CodRips
             End Using
             Return myData
         Catch ex As Exception
-            MsgBox(ex.Message)
+            ' MsgBox(ex.Message)
             Return Nothing
         End Try
     End Function
@@ -82,7 +84,7 @@ Public Class CodRips
                 cn.Close()
             End Using
         Catch ex As Exception
-            MsgBox(ex.Message)
+            ' MsgBox(ex.Message)
         End Try
     End Sub
     Public Sub RCargar_Control(ByRef Archi2 As String, ByRef ntba As String, ByRef IdUsuariA As String)
@@ -141,8 +143,8 @@ Public Class CodRips
 
                     Case "AU"
                         ssql = "SET AUTOCOMMIT=0; LOAD DATA LOCAL INFILE '" & Archi2 & "' INTO TABLE DBlevalidamos." & ntba & " CHARACTER SET latin1 FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n' " &
-                          "(Campo1,Campo2,Campo3,Campo4,@Campo5,Campo6,Campo7,Campo8,Campo9,Campo10,Campo11,Campo12,Campo13,Campo14,Campo15,@Campo16,Campo17,EAPB,Tipo_Usuario,Edad,U_Edad,Sexo,Cod_Dpto,Cod_Mun,Cod_Zona,Num_Contrato,Plandebeneficios,Num_Poliza,EdadEtareo,EdadVigilancia,EdadQuinquenio,Entidad,Regimen,@fecha_afil,@FechaNacimiento,Usuario) " &
-                          "SET Campo5=str_to_date(@Campo5,'%d/%m/%Y'), fecha_afil=str_to_date(@fecha_afil,'%d/%m/%Y'), Campo16=str_to_date(@Campo16,'%d/%m/%Y'), FechaNacimiento=str_to_date(@FechaNacimiento,'%d/%m/%Y'), Usuario='" & IdUsuariA & "'; COMMIT;"
+                          "(Campo1,Campo2,Campo3,Campo4,@Campo5,@Campo6,Campo7,Campo8,Campo9,Campo10,Campo11,Campo12,Campo13,Campo14,Campo15,@Campo16,@Campo17,EAPB,Tipo_Usuario,Edad,U_Edad,Sexo,Cod_Dpto,Cod_Mun,Cod_Zona,Num_Contrato,Plandebeneficios,Num_Poliza,EdadEtareo,EdadVigilancia,EdadQuinquenio,Entidad,Regimen,@fecha_afil,@FechaNacimiento,Usuario) " &
+                          "SET Campo5=str_to_date(@Campo5,'%d/%m/%Y'),Campo6 = CAST(@Campo6 AS time), fecha_afil=str_to_date(@fecha_afil,'%d/%m/%Y'), Campo16=str_to_date(@Campo16,'%d/%m/%Y'),Campo17 = CAST(@Campo17 AS time), FechaNacimiento=str_to_date(@FechaNacimiento,'%d/%m/%Y'), Usuario='" & IdUsuariA & "'; COMMIT;"
                 End Select
                 oComando = New MySqlCommand(ssql, cn)
                 oComando.CommandType = CommandType.Text
@@ -169,8 +171,8 @@ Public Class CodRips
                     cmd.Parameters.Add("USession", MySqlDbType.VarChar).Value = id
                     cmd.ExecuteNonQuery()
                 End Using
-            Catch ex As MySqlException
-                MsgBox(ex.Message, MsgBoxStyle.Information,)
+            Catch ex As Exception
+                '    MsgBox(ex.Message, MsgBoxStyle.Information,)
             End Try
         End Using
     End Sub
@@ -186,8 +188,8 @@ Public Class CodRips
                     cmd.CommandTimeout = 900000000
                     cmd.ExecuteNonQuery()
                 End Using
-            Catch ex As MySqlException
-                MsgBox(ex.Message, , sSQL)
+            Catch ex As Exception
+                ' MsgBox(ex.Message, , sSQL)
             End Try
         End Using
     End Sub
@@ -205,7 +207,7 @@ Public Class CodRips
                     cmd.ExecuteNonQuery()
                 End Using
             End Using
-        Catch ex As MySqlException
+        Catch ex As Exception
 
         End Try
 
@@ -241,10 +243,10 @@ Public Class CodRips
                 End Using
                 Return PExcluir
             Catch ex As Exception
-                MsgBox(ex.Message, MsgBoxStyle.Information, "Simetria Consolidated")
+                '   MsgBox(ex.Message, MsgBoxStyle.Information, "Simetria Consolidated")
                 Return Nothing
             End Try
-        Catch ex As MySqlException
+        Catch ex As Exception
             Return Nothing
         End Try
     End Function
@@ -270,8 +272,8 @@ Public Class CodRips
                     cn.Close()
                 End Using
             End Using
-        Catch ex As MySqlException
-            MsgBox(ex.Message, , sSQL)
+        Catch ex As Exception
+            ' MsgBox(ex.Message, , sSQL)
         End Try
     End Sub
     Dim porce, por1 As Integer
@@ -315,8 +317,8 @@ Public Class CodRips
                     cn.Close()
                 End Using
             End Using
-        Catch ex As MySqlException
-            MsgBox(ex.Message, , sSQL)
+        Catch ex As Exception
+            ' MsgBox(ex.Message, , sSQL)
         End Try
     End Sub
     Public Sub Validar_Medicamentos(ByRef id As String, ByRef PExcluir As String)
@@ -333,7 +335,7 @@ Public Class CodRips
                     cmd.ExecuteNonQuery()
                 End Using
             End Using
-        Catch ex As MySqlException
+        Catch ex As Exception
         End Try
     End Sub
     Public Sub Validar_Nacimientos(ByRef id As String, ByRef PExcluir As String)
@@ -351,8 +353,8 @@ Public Class CodRips
                     cn.Close()
                 End Using
             End Using
-        Catch ex As MySqlException
-            MsgBox(ex.Message, , sSQL)
+        Catch ex As Exception
+            '   MsgBox(ex.Message, , sSQL)
         End Try
     End Sub
     Public Sub Validar_Otros_servicios(ByRef id As String, ByRef PExcluir As String, ByRef porce As String)
@@ -371,7 +373,7 @@ Public Class CodRips
                     cn.Close()
                 End Using
             End Using
-        Catch ex As MySqlException
+        Catch ex As Exception
         End Try
     End Sub
 
@@ -413,8 +415,8 @@ Public Class CodRips
                     cmd.ExecuteNonQuery()
                 End Using
             End Using
-        Catch ex As MySqlException
-            MsgBox(ex.Message, , sSQL)
+        Catch ex As Exception
+            '  MsgBox(ex.Message, , sSQL)
         End Try
     End Sub
 
@@ -452,7 +454,7 @@ Public Class CodRips
                     cmd.ExecuteNonQuery()
                 End Using
             End Using
-        Catch ex As MySqlException
+        Catch ex As Exception
 
         End Try
     End Sub
@@ -470,7 +472,7 @@ Public Class CodRips
                     cmd.ExecuteNonQuery()
                 End Using
             End Using
-        Catch ex As MySqlException
+        Catch ex As Exception
 
         End Try
     End Sub
@@ -488,7 +490,7 @@ Public Class CodRips
                     cmd.ExecuteNonQuery()
                 End Using
             End Using
-        Catch ex As MySqlException
+        Catch ex As Exception
 
         End Try
     End Sub
