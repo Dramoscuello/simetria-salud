@@ -7,7 +7,6 @@ Public Class ClassDatos
 
     Dim conexion As String = conect.CrearConexion.ConnectionString
 
-
     Public Function Datos_Llamar() As DataSet
         Try
             Dim myData As New DataSet

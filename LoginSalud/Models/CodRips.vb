@@ -278,30 +278,7 @@ Public Class CodRips
     End Sub
     Dim porce, por1 As Integer
     Dim tari As String
-    'Public Sub Validar_Consultastari(ByRef id As String, ByRef Porcentajetxt As String, ByRef CbTipoTarifa As String)
-    '    Dim cs As String, SSQL As String
 
-    '    por1 = CInt(Porcentajetxt)
-    '    cs = ""
-    '    SSQL = ""
-    '    porce = CInt(Porcentajetxt)
-    '    tari = CbTipoTarifa
-    '    Dim iResultado As Integer
-    '    Try
-    '        Using conn As New MySqlConnection(conexion)
-    '            conn.Open()
-
-    '            SSQL = "SET AUTOCOMMIT = 0; INSERT INTO error_ac_ (TIPO_IDENTIFI, NUM_IDENTIFI, NUM_FACTURA, FECHA_CONSULTA, CODIGO_CONS, DX_PPAL, DESCRIPCION_DEL_ERROR, ERROR1,USUARIO) SELECT ac.Campo3,ac.Campo4,ac.Campo1, ac.Campo5, ac.Campo7, ac.Campo10,'DIFERENCIA DE TARIFA' AS DESCRIP,ac.Campo15-ROUND(t.VALOR *(" & porce & " / 100), -2) AS PORC,'" & id & "' FROM ac INNER JOIN tarifas_1 t ON t.CÓDIGO=ac.Campo7 AND t.AÑO = YEAR(ac.Campo5) WHERE t.MANUAL = 'cups' AND ROUND(t.VALOR *(" & porce & " / 100), 1)<>ac.Campo10 AND (ac.Campo15-ROUND(t.VALOR *(" & porce & " / 100), 1))>0 AND ac.Usuario='" & id & "'; COMMIT;"
-    '            Dim cmd As New MySqlCommand(SSQL, conn)
-    '            cmd.CommandType = CommandType.Text
-    '            cmd.CommandTimeout = 9000000
-    '            iResultado = cmd.ExecuteNonQuery()
-    '            ' ejecutar comando 
-    '        End Using
-    '    Catch ex As Exception
-    '        MsgBox(ex.Message, MsgBoxStyle.Exclamation, "VALIDANDO TARIFAS EN CONSULTAS ")
-    '    End Try
-    'End Sub
     Public Sub Validar_Hospitalizacion(ByRef id As String, ByRef PExcluir As String)
         Dim sSQL As String
         sSQL = "ERRORES_EN_HOSPITALIZACION"
@@ -376,29 +353,6 @@ Public Class CodRips
         Catch ex As Exception
         End Try
     End Sub
-
-    'Public Sub Validar_Otros_serviciostari(ByRef id As String, ByRef Porcentajetxt As String, ByRef CbTipoTarifa As String)
-
-    '    Dim SSQL As String = ""
-
-
-    '    porce = CInt(Porcentajetxt)
-    '    tari = CbTipoTarifa
-    '    Dim iResultado As Integer
-    '    Try
-    '        Using conn As New MySqlConnection(conexion)
-    '            conn.Open()
-    '            SSQL = "SET AUTOCOMMIT = 0;  INSERT INTO error_at_ (NUM_FACTURA, TIPO_IDENTIFI, NUM_IDENTIFI, TIPO_SERV, CODIGO_SERV, NOMBRE_SERV, CANT , VALOR_UNITARIO, DESCRIPCION_DEL_ERROR , ERROR1 , Usuario) SELECT a.Campo1 , a.Campo3 , a.Campo4 , a.Campo6 , a.Campo7 , a.Campo8 , a.Campo9 ,a.Campo10 , CONCAT('DIFERENCIA DE TARIFA - ','TARIFA :',t.VALOR,' - PORCENTAJE ('," & porce & ",'%) : ',ROUND(t.VALOR *(" & porce & " / 100), -2), ' - DIFERENCIA :',(a.Campo10-ROUND(t.VALOR *(" & porce & " / 100), -2))) AS DESCRIP, a.Campo9*(a.Campo10-ROUND(t.VALOR *(" & porce & " / 100), -2)) AS PORC,'" & id & "' FROM at01 a INNER JOIN tarifas_1 t ON t.CÓDIGO=a.Campo7 AND t.AÑO = YEAR(a.FECHA) WHERE t.MANUAL = 'cups' AND ROUND(t.VALOR *(" & porce & " / 100), 1)<>a.Campo10 AND (a.Campo10-ROUND(t.VALOR *(" & porce & " / 100), 1))>0 AND a.Usuario='" & id & "';  COMMIT;"
-    '            Dim cmd As New MySqlCommand(SSQL, conn)
-    '            cmd.CommandType = CommandType.Text
-    '            cmd.CommandTimeout = 9000000
-    '            iResultado = cmd.ExecuteNonQuery() ' ejecutar comando 
-    '            conn.Close()
-    '        End Using
-    '    Catch ex As Exception
-    '        MsgBox(ex.Message, MsgBoxStyle.Exclamation, "VALIDANDO TARIFAS EN OTROS SERVICIOS ")
-    '    End Try
-    'End Sub
     Public Sub Validar_Procedimientos(ByRef id As String, ByRef PExcluir As String, ByRef porc As String)
         Dim sSQL As String
         sSQL = "ERRORES_EN_PROCEDIMIENTOS"
@@ -419,27 +373,6 @@ Public Class CodRips
             '  MsgBox(ex.Message, , sSQL)
         End Try
     End Sub
-
-    'Public Sub Validar_Procedimientostari(ByRef id As String, ByRef Porcentajetxt As String, ByRef CbTipoTarifa As String)
-    '    Dim cs As String, SSQL As String
-    '    por1 = CInt(Porcentajetxt)
-    '    cs = ""
-    '    SSQL = ""
-    '    porce = CInt(Porcentajetxt)
-    '    tari = CbTipoTarifa
-    '    Try
-    '        Using conn As New MySqlConnection(conexion)
-    '            conn.Open()
-    '            SSQL = "SET AUTOCOMMIT = 0; INSERT INTO error_ap_ (TIPO_IDENTIFI, NUM_IDENTIFI, NUM_FACTURA, FECHA_PROC, CODIGO_PROC, DESCRIPCION_DEL_ERROR , ERROR1 ,Usuario) SELECT ap.Campo3 , ap.Campo4 , ap.Campo1 , ap.Campo5 , ap.Campo7 , 'DIFERENCIA DE TARIFA' AS DESCRIP, ap.Campo15-ROUND(t.VALOR *(" & porce & " / 100), -2) PORC,'" & id & "' FROM ap INNER JOIN tarifas_1 t ON t.CÓDIGO=ap.Campo7 AND t.AÑO = YEAR(ap.Campo5) WHERE t.MANUAL = 'cups' AND ROUND(t.VALOR *(" & porce & " / 100), 1)<>ap.Campo15 AND (ap.Campo15-ROUND(t.VALOR *(" & porce & " / 100), 1))>0 AND ap.Usuario='" & id & "';  COMMIT;"
-    '            Dim cmd As New MySqlCommand(SSQL, conn)
-    '            cmd.CommandTimeout = 9000000
-    '            Dim iResultado As Integer
-    '            iResultado = cmd.ExecuteNonQuery() ' ejecutar comando 
-    '        End Using
-    '    Catch ex As Exception
-    '        MsgBox(ex.Message, MsgBoxStyle.Exclamation, "VALIDANDO TARIFAS EN PROCEDIMIENTOS ")
-    '    End Try
-    'End Sub
     Public Sub Validar_Urgencias(ByRef id As String, ByRef PExcluir As String)
         Dim sSQL As String
         sSQL = "ERRORES_EN_URGENCIAS"

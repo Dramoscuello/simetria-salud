@@ -3,13 +3,8 @@ Imports MySql.Data.MySqlClient
 'Imports Excel = Microsoft.Office.Interop.Excel
 'Imports System.Runtime.InteropServices
 Public Class Pasar_ErroresRips
-
     Dim conect As New ClassConexion
-
-
     Dim conexion As String = conect.CrearConexion.ConnectionString
-
-
     Public Function Obtener_Errores_(ByVal op As String, ByVal id As String) As DataTable
         Try
             Dim tbl As New DataTable
@@ -32,6 +27,4 @@ Public Class Pasar_ErroresRips
             Return Nothing
         End Try
     End Function
-
-
 End Class

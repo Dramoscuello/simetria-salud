@@ -1,8 +1,9 @@
 ﻿Imports MySql.Data.MySqlClient
+
 Public Class _Default
     Inherits System.Web.UI.Page
     'Dim con As Conexion
-    Dim conect As New Conexion
+    Dim conect As New ClassConexion
     Dim oComando As MySqlCommand
     Dim conexion As String = conect.CrearConexion.ConnectionString
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load

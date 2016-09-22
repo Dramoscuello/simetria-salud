@@ -6,6 +6,7 @@ Imports System.IO
 Imports ClosedXML.Excel
 Imports System.Threading
 
+Imports LoginSalud.Controllers
 Public Class ValidacionRips
     Inherits System.Web.UI.Page
     Dim idusu As String
@@ -25,7 +26,8 @@ Public Class ValidacionRips
 
     Private Sub cargar_Solo_Nombres(ByRef id As String, ByRef Archi2 As String, ByRef nombre As String)
         Dim controlCT As New DataTable
-        Dim claseprocedure As New CodRips
+        Dim claseprocedure As New RipsController
+
         controlCT = claseprocedure.ListarControl(id)
         Dim opcion As String
         For Each MiDataRow As DataRow In controlCT.Rows
