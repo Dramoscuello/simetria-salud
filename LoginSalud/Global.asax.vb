@@ -10,8 +10,8 @@ Public Class Global_asax
 
     Private Shared Sub RegisterRoutes(routes As RouteCollection)
         routes.MapPageRoute("Ingreso", "Ingreso", "~/Default.aspx")
-        routes.MapPageRoute("Validacion1479", "Validacion1479", "~/Views/1479.aspx")
+        routes.MapPageRoute("Validacion1479", "Validacion1479", "~/Views/Default1479/1479.aspx")
         routes.MapPageRoute("Principal", "Principal", "~/Views/Prueba.aspx")
-        routes.MapPageRoute("ValidacionRips", "ValidacionRips", "~/Views/ValidacionRips.aspx")
+        routes.MapPageRoute("ValidacionRips", "ValidacionRips", "~/Views/Rips/ValidacionRips.aspx")
     End Sub
 End Class

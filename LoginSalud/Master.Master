@@ -92,7 +92,7 @@
                     <ul class="treeview-menu">
                         <li><a href='<%=ResolveUrl("~/ValidacionRips") %>'><i class="fa fa-hand-o-right" aria-hidden="true"></i>Validacion de Rips</a></li>
                         <li><a href="#"><i class="fa fa-hand-o-right" aria-hidden="true"></i>Creacion de Rips</a></li>
-                    </ul>
+                                               </ul>
                 </li>
                 <li class="treeview" runat="server" id="hide1">
                     <a href="#">

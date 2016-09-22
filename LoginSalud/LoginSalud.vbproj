@@ -123,10 +123,7 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Default1479\" />
-    <Folder Include="Views\Rips\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
@@ -176,6 +173,7 @@
     <Content Include="Content\bootstrap\js\themes\gray.js" />
     <Content Include="Content\bootstrap\js\themes\grid.js" />
     <Content Include="Content\bootstrap\skins\_all-skins.min.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="Content\sweetalert.css" />
     <Content Include="Default.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -191,10 +189,13 @@
     <Content Include="IMG\avatar.pgn.png" />
     <Content Include="IMG\Logo.png" />
     <Content Include="IMG\salir.png" />
-    <Content Include="Views\1479.aspx" />
+    <Content Include="Views\404.aspx" />
+    <Content Include="Views\Default1479\1479.aspx" />
     <Content Include="Views\loading.gif" />
     <Content Include="Scripts\sweetalert.min.js" />
-    <Content Include="Views\login.aspx" />
+    <Content Include="Views\Error.aspx">
+      <BrowseToURL>~/Views/Error.aspx</BrowseToURL>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\bootstrap\css\bootstrap.css.map" />
@@ -204,7 +205,6 @@
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -218,11 +218,14 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Views\Prueba.aspx" />
-    <Content Include="Views\ValidacionRips.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Views\Rips\ValidacionRips.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Default1479Controller.vb" />
+    <Compile Include="Controllers\MException.vb" />
     <Compile Include="Controllers\RipsController.vb" />
     <Compile Include="Default.aspx.designer.vb">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -246,18 +249,25 @@
     <Compile Include="Models\ClassDatos.vb" />
     <Compile Include="Models\CodRips.vb" />
     <Compile Include="Models\Pasar_ErroresRips.vb" />
-    <Compile Include="Views\1479.aspx.designer.vb">
+    <Compile Include="Views\404.aspx.designer.vb">
+      <DependentUpon>404.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\404.aspx.vb">
+      <DependentUpon>404.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Views\Default1479\1479.aspx.designer.vb">
       <DependentUpon>1479.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Views\1479.aspx.vb">
+    <Compile Include="Views\Default1479\1479.aspx.vb">
       <DependentUpon>1479.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
-    <Compile Include="Views\login.aspx.designer.vb">
-      <DependentUpon>login.aspx</DependentUpon>
+    <Compile Include="Views\Error.aspx.designer.vb">
+      <DependentUpon>Error.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Views\login.aspx.vb">
-      <DependentUpon>login.aspx</DependentUpon>
+    <Compile Include="Views\Error.aspx.vb">
+      <DependentUpon>Error.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="Master.Master.designer.vb">
@@ -293,10 +303,10 @@
       <DependentUpon>Prueba.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Views\ValidacionRips.aspx.designer.vb">
+    <Compile Include="Views\Rips\ValidacionRips.aspx.designer.vb">
       <DependentUpon>ValidacionRips.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Views\ValidacionRips.aspx.vb">
+    <Compile Include="Views\Rips\ValidacionRips.aspx.vb">
       <DependentUpon>ValidacionRips.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
